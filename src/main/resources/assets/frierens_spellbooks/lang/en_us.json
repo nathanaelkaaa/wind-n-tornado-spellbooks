@@ -1,0 +1,52 @@
+{
+  "itemGroup.frierens_spellbooks.creative_tab": "Frieren's Spellbooks",
+
+  "effect.frierens_spellbooks.tailwind": "Tailwind",
+
+  "school.frierens_spellbooks.wind": "Wind",
+  "attribute.frierens_spellbooks.wind_magic_resist": "Wind Magic Resistance",
+  "attribute.frierens_spellbooks.wind_spell_power": "Wind Spell Power",
+
+  "spell.frierens_spellbooks.wind_jump": "Wind Jump",
+  "spell.frierens_spellbooks.wind_jump.guide": "Propulse yourself in the air",
+
+  "spell.frierens_spellbooks.tornado": "Tornado",
+  "spell.frierens_spellbooks.tornado.guide": "Around a targeted location, create a tornado that will suck in nearby creatures and propulse them in the air",
+
+  "spell.frierens_spellbooks.iron_slash": "Iron Slash",
+  "spell.frierens_spellbooks.iron_slash.guide": "Focus yourself before doing a big dash that slash your enemies",
+
+  "spell.frierens_spellbooks.aeropic": "Aeropic",
+  "spell.frierens_spellbooks.aeropic.guide": "Leap forward in a spinning, voltaic attack that will damage your first target and launch you into the air. As long as you hit your target, the attack can be repeated.",
+
+  "spell.frierens_spellbooks.almighty_push": "Almighty Push",
+  "spell.frierens_spellbooks.almighty_push.guide": "Create a area of wind around you knocking back creatures in every directions, causing damage if they impact a wall",
+
+  "spell.frierens_spellbooks.wind_blade": "Wind Blade",
+  "spell.frierens_spellbooks.wind_blade.guide": "Slash forward to send out a concentrated blade of wind, slicing through creatures",
+
+  "spell.frierens_spellbooks.tailwind": "Tailwind",
+  "spell.frierens_spellbooks.tailwind.guide": "Imbue yourself with the strength of the wind, increasing your speed and your mobility in the air.",
+
+  "item.frierens_spellbooks.aeromancer_helmet": "Aeromancer Hat",
+  "item.frierens_spellbooks.aeromancer_chestplate": "Aeromancer Coat",
+  "item.frierens_spellbooks.aeromancer_leggings": "Aeromancer Leggings",
+  "item.frierens_spellbooks.aeromancer_boots": "Aeromancer Boots",
+
+  "death.attack.wind_magic": "%1$s was slain by %2$s's wind magic",
+
+  "death.attack.frierens_spellbooks.tornado": "%1$s was crushed by %2$s's tornado",
+  "death.attack.frierens_spellbooks.tornado.item": "%1$s was crushed by %2$s's tornado while using %3$s",
+
+  "death.attack.frierens_spellbooks.iron_slash": "%1$s life was severed by %2$s",
+  "death.attack.frierens_spellbooks.iron_slash.item": "%1$s life was severed by %2$s while using %3$s",
+
+  "death.attack.frierens_spellbooks.aeropic": "%1$s was beaten up by %2$s",
+  "death.attack.frierens_spellbooks.aeropic.item": "%1$s was beaten up by %2$s while using %3$s",
+
+  "death.attack.frierens_spellbooks.almighty_push": "%1$s was blasted by %2$s",
+  "death.attack.frierens_spellbooks.almighty_push.item": "%1$s was blasted by %2$s while using %3$s",
+
+  "death.attack.frierens_spellbooks.wind_blade": "%1$s's life was severed by %2$s",
+  "death.attack.irons_spellbooks.blood_slash.item": "%1$s's life was severed by %2$s using %3$s"
+}
