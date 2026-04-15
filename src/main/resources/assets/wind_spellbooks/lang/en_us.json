@@ -28,10 +28,18 @@
   "spell.wind_spellbooks.tailwind": "Tailwind",
   "spell.wind_spellbooks.tailwind.guide": "Imbue yourself with the strength of the wind, increasing your speed and your mobility in the air.",
 
+  "item.wind_spellbooks.wind_staff": "Wind Staff",
+
   "item.wind_spellbooks.aeromancer_helmet": "Aeromancer Hat",
   "item.wind_spellbooks.aeromancer_chestplate": "Aeromancer Coat",
   "item.wind_spellbooks.aeromancer_leggings": "Aeromancer Leggings",
   "item.wind_spellbooks.aeromancer_boots": "Aeromancer Boots",
+
+  "item.wind_spellbooks.aeromancer_spawn_egg": "Aeromancer Spawn Egg",
+
+  "entity.wind_spellbooks.aeromancer": "Aeromancer",
+
+  "affix.wind_spellbooks:spellbook/attribute/fire_spell_power": "Aeromancer's",
 
   "death.attack.wind_magic": "%1$s was slain by %2$s's wind magic",
 

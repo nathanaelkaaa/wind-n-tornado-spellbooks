@@ -1,5 +1,6 @@
 package net.raptorzizi.wind_spellbooks.util;
 
+import io.redspace.ironsspellbooks.IronsSpellbooks;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
@@ -13,8 +14,7 @@ import net.raptorzizi.wind_spellbooks.WindSpellbooksMod;
 public class ModTags {
 
 
-    public static final TagKey<Item> WIND_FOCUS = itemTag("wind_focus.json");
-
+    public static final TagKey<Item> WIND_FOCUS = ItemTags.create(ResourceLocation.fromNamespaceAndPath(IronsSpellbooks.MODID, "wind_focus"));
 
     private static TagKey<Item> itemTag(String name) {
         return ItemTags.create(

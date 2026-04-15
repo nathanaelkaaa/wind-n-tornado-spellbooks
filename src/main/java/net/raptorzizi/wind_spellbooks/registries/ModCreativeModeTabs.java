@@ -1,36 +1,29 @@
 package net.raptorzizi.wind_spellbooks.registries;
 
-import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import io.redspace.ironsspellbooks.registries.CreativeTabRegistry;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
-import net.raptorzizi.wind_spellbooks.WindSpellbooksMod;
-
-import static io.redspace.ironsspellbooks.registries.CreativeTabRegistry.EQUIPMENT_TAB;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 
 public class ModCreativeModeTabs {
-    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TAB =
-            DeferredRegister.create(Registries.CREATIVE_MODE_TAB, WindSpellbooksMod.MOD_ID);
 
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MATERIALS_TAB = CREATIVE_MODE_TAB.register("spellbook_materials",
-            () -> CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup." + WindSpellbooksMod.MOD_ID + ".creative_tab"))
-            .icon(() -> new ItemStack(Items.WIND_CHARGE))
-            .displayItems((enabledFeatures, entries) -> {
-                entries.accept(ModItemsRegistry.AEROMANCER_HELMET.get());
-                entries.accept(ModItemsRegistry.AEROMANCER_CHESTPLATE.get());
-                entries.accept(ModItemsRegistry.AEROMANCER_LEGGINGS.get());
-                entries.accept(ModItemsRegistry.AEROMANCER_BOOTS.get());
-            })
-            .withTabsBefore(EQUIPMENT_TAB.getKey())
-            .build());
+    @SubscribeEvent
+    public static void fillCreativeTabs(final BuildCreativeModeTabContentsEvent event) {
 
+        if (event.getTabKey() == CreativeTabRegistry.EQUIPMENT_TAB.getKey()) {
+            event.accept(ModItemsRegistry.AEROMANCER_HELMET.get());
+            event.accept(ModItemsRegistry.AEROMANCER_CHESTPLATE.get());
+            event.accept(ModItemsRegistry.AEROMANCER_LEGGINGS.get());
+            event.accept(ModItemsRegistry.AEROMANCER_BOOTS.get());
+            event.accept(ModItemsRegistry.WIND_STAFF.get());
+        }
 
-    public static void register(IEventBus eventBus){
-        CREATIVE_MODE_TAB.register(eventBus);
+        if (event.getTabKey() == CreativeTabRegistry.MATERIALS_TAB.getKey()) {
+            event.accept(ModItemsRegistry.AEROMANCER_SPAWN_EGG.get());
+        }
+    }
+
+    public static void register(IEventBus eventBus) {
+        eventBus.addListener(ModCreativeModeTabs::fillCreativeTabs);
     }
 }

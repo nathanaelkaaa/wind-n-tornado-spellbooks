@@ -1,13 +1,20 @@
 package net.raptorzizi.wind_spellbooks.registries;
 
+import io.redspace.ironsspellbooks.api.item.weapons.ExtendedSwordItem;
+import io.redspace.ironsspellbooks.item.weapons.StaffItem;
 import io.redspace.ironsspellbooks.util.ItemPropertiesHelper;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.raptorzizi.wind_spellbooks.WindSpellbooksMod;
 import net.raptorzizi.wind_spellbooks.item.armor.AeromancerArmorItem;
+import net.raptorzizi.wind_spellbooks.item.weapons.ModStaffTier;
+
+import java.util.function.Supplier;
 
 public class ModItemsRegistry {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(WindSpellbooksMod.MOD_ID);
@@ -15,6 +22,7 @@ public class ModItemsRegistry {
     /**
      * Spell items
      */
+    public static final DeferredHolder<Item, Item> WIND_STAFF = ITEMS.register("wind_staff", () -> new StaffItem(ItemPropertiesHelper.equipment(1).attributes(ExtendedSwordItem.createAttributes(ModStaffTier.WIND_STAFF)).rarity(Rarity.RARE)));
 
     /**
      * Generic Items
@@ -39,6 +47,7 @@ public class ModItemsRegistry {
     /**
      * Spawn eggs
      */
+    public static final Supplier<DeferredSpawnEggItem> AEROMANCER_SPAWN_EGG = ITEMS.register("aeromancer_spawn_egg", () -> new DeferredSpawnEggItem(ModEntityRegistry.AEROMANCER, 0xd0d0d0, 0x979797, ItemPropertiesHelper.material().stacksTo(64)));
 
     public static void register(IEventBus eventBus)  {
         ITEMS.register(eventBus);

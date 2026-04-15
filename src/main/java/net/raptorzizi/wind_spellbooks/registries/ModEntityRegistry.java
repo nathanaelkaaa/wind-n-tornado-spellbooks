@@ -8,6 +8,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.raptorzizi.wind_spellbooks.WindSpellbooksMod;
+import net.raptorzizi.wind_spellbooks.entity.mobs.wizards.aeromancer.AeromancerEntity;
 import net.raptorzizi.wind_spellbooks.entity.spells.almighty_push.AlmightyPushEntity;
 import net.raptorzizi.wind_spellbooks.entity.spells.iron_slash.DashStopEntity;
 import net.raptorzizi.wind_spellbooks.entity.spells.iron_slash.IronSlashEntity;
@@ -72,6 +73,13 @@ public class ModEntityRegistry {
                             .clientTrackingRange(64)
                             .build(ResourceLocation.fromNamespaceAndPath(WindSpellbooksMod.MOD_ID, "wind_blade").toString())
             );
+
+    public static final DeferredHolder<EntityType<?>, EntityType<AeromancerEntity>> AEROMANCER =
+            ENTITIES.register("aeromancer", () -> EntityType.Builder.of(AeromancerEntity::new, MobCategory.MONSTER)
+                    .sized(.6f, 1.8f)
+                    .clientTrackingRange(64)
+                    .build(ResourceLocation.fromNamespaceAndPath(WindSpellbooksMod.MOD_ID, "aeromancer").toString()));
+
 
     public static void register(IEventBus eventBus) {
         ENTITIES.register(eventBus);

@@ -8,11 +8,13 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.raptorzizi.wind_spellbooks.WindSpellbooksMod;
+import net.raptorzizi.wind_spellbooks.entity.mobs.wizards.aeromancer.AeromancerRenderer;
 import net.raptorzizi.wind_spellbooks.entity.spells.almighty_push.AlmightyPushRenderer;
 import net.raptorzizi.wind_spellbooks.entity.spells.iron_slash.IronSlashRenderer;
 import net.raptorzizi.wind_spellbooks.entity.spells.iron_slash.SlashEffectRenderer;
@@ -51,6 +53,7 @@ public class ModClientSetup {
         event.registerEntityRenderer(ModEntityRegistry.SLASH_EFFECT_ENTITY.get(), SlashEffectRenderer::new);
         event.registerEntityRenderer(ModEntityRegistry.IRON_SLASH_ENTITY.get(), IronSlashRenderer::new);
         event.registerEntityRenderer(ModEntityRegistry.TORNADO_ENTITY.get(), TornadoRenderer::new);
+        event.registerEntityRenderer(ModEntityRegistry.AEROMANCER.get(), AeromancerRenderer::new);
     }
 
     @SubscribeEvent
@@ -66,7 +69,7 @@ public class ModClientSetup {
     }
 
     private static void addLayerToPlayerSkin(EntityRenderersEvent.AddLayers event,
-                                             net.minecraft.client.resources.PlayerSkin.Model skinName) {
+                                             PlayerSkin.Model skinName) {
         var render = event.getSkin(skinName);
         if (render instanceof LivingEntityRenderer livingRenderer) {
             livingRenderer.addLayer(new EnergySwirlLayer.Vanilla(livingRenderer, TAILWIND_TEXTURE, ModMobEffectRegistry.TAILWIND) {

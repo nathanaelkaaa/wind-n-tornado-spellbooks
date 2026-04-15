@@ -15,7 +15,7 @@ public class ModDamageTypes {
                 ResourceLocation.fromNamespaceAndPath(WindSpellbooksMod.MOD_ID, name));
     }
 
-    public static final ResourceKey<DamageType> WIND_MAGIC = register("wind");
+    public static final ResourceKey<DamageType> WIND_MAGIC = register("wind_magic");
 
     public static void bootstrap(BootstrapContext<DamageType> context) {
         context.register(WIND_MAGIC, new DamageType(
