@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.raptorzizi.wind_spellbooks.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "MixinGustSpell",
+    "MixinInvisibilitySpell",
+    "MixinThrowSpell"
+  ],
+  "client": [],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
