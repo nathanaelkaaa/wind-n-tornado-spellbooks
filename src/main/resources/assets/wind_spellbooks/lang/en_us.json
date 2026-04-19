@@ -29,6 +29,9 @@
   "spell.wind_spellbooks.tailwind.guide": "Imbue yourself with the strength of the wind, increasing your speed and your mobility in the air.",
 
   "item.wind_spellbooks.wind_staff": "Wind Staff",
+  "item.wind_spellbooks.wind_spell_book": "Book of Tempest's",
+  "item.wind_spellbooks.wind_upgrade_orb": "Wind Upgrade Orb",
+  "item.wind_spellbooks.wind_rune": "Wind Rune",
 
   "item.wind_spellbooks.aeromancer_helmet": "Aeromancer Hat",
   "item.wind_spellbooks.aeromancer_chestplate": "Aeromancer Coat",

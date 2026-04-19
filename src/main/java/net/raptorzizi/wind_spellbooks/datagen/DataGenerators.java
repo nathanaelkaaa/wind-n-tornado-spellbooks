@@ -18,5 +18,6 @@ public class DataGenerators {
         ModRegistryDataGenerator datapackProvider = new ModRegistryDataGenerator(output, event.getLookupProvider());
         generator.addProvider(event.includeServer(), datapackProvider);
         generator.addProvider(event.includeServer(), new ModDamageTypeTagGenerator(output, datapackProvider.getRegistryProvider(), event.getExistingFileHelper()));
+        generator.addProvider(event.includeServer(), new ModRecipeProvider(output, datapackProvider.getRegistryProvider()));
     }
 }

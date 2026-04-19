@@ -1,8 +1,14 @@
 package net.raptorzizi.wind_spellbooks.registries;
 
 import io.redspace.ironsspellbooks.api.item.weapons.ExtendedSwordItem;
+import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
+import io.redspace.ironsspellbooks.item.SpellBook;
+import io.redspace.ironsspellbooks.item.UpgradeOrbItem;
+import io.redspace.ironsspellbooks.item.weapons.AttributeContainer;
 import io.redspace.ironsspellbooks.item.weapons.StaffItem;
+import io.redspace.ironsspellbooks.registries.ComponentRegistry;
 import io.redspace.ironsspellbooks.util.ItemPropertiesHelper;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
@@ -23,11 +29,17 @@ public class ModItemsRegistry {
      * Spell items
      */
     public static final DeferredHolder<Item, Item> WIND_STAFF = ITEMS.register("wind_staff", () -> new StaffItem(ItemPropertiesHelper.equipment(1).attributes(ExtendedSwordItem.createAttributes(ModStaffTier.WIND_STAFF)).rarity(Rarity.RARE)));
+    public static final DeferredHolder<Item, Item> WIND_SPELL_BOOK = ITEMS.register("wind_spell_book", () -> new SpellBook(10)
+            .withSpellbookAttributes(new AttributeContainer(ModAttributeRegistry.WIND_SPELL_POWER, .10, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), new AttributeContainer(AttributeRegistry.MAX_MANA, 200, AttributeModifier.Operation.ADD_VALUE)));
+    /**
+     * Upgrade Orbs
+     */
+    public static final DeferredHolder<Item, Item> WIND_UPGRADE_ORB = ITEMS.register("wind_upgrade_orb", () -> new UpgradeOrbItem(ItemPropertiesHelper.material().rarity(Rarity.UNCOMMON).component(ComponentRegistry.UPGRADE_ORB_TYPE, ModUpgradeOrbTypeRegistry.WIND_SPELL_POWER)));
 
     /**
      * Generic Items
      */
-
+    public static final DeferredHolder<Item, Item> WIND_RUNE = ITEMS.register("wind_rune", () -> new Item(ItemPropertiesHelper.material()));
     /**
      * Armor
      */

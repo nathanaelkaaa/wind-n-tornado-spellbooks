@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "irons_spellbooks:arcane_essence"
+  },
+  "base": {
+    "tag": "irons_spellbooks:wizard_base_leggings"
+  },
+  "result": {
+    "count": 1,
+    "id": "wind_spellbooks:aeromancer_leggings"
+  },
+  "template": {
+    "item": "wind_spellbooks:wind_rune"
+  }
+}

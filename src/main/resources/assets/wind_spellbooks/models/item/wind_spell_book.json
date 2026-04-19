@@ -1,0 +1,26 @@
+{
+  "parent": "minecraft:item/handheld",
+  "loader": "neoforge:separate_transforms",
+  "base": {
+    "textures": {
+      "book": "wind_spellbooks:item/spell_book_models/wind_spell_book",
+      "particle": "wind_spellbooks:item/spell_book_models/wind_spell_book"
+    },
+    "parent": "irons_spellbooks:item/template_spell_book_model"
+  },
+  "perspectives": {
+    "gui": {
+      "parent": "item/generated",
+      "textures": {
+        "layer0": "wind_spellbooks:item/wind_spell_book"
+      }
+    },
+    "head": {
+      "textures": {
+        "book": "wind_spellbooks:item/spell_book_models/wind_spell_book",
+        "particle": "wind_spellbooks:item/spell_book_models/wind_spell_book"
+      },
+      "parent": "irons_spellbooks:item/template_spell_book_model_open"
+    }
+  }
+}

@@ -57,8 +57,8 @@ public class AeromancerEntity extends NeutralWizard implements IMerchantWizard {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FocusOnTradingPlayerGoal<>(this));
         this.goalSelector.addGoal(1, new FloatGoal(this));
-        this.goalSelector.addGoal(2, new SpellBarrageGoal(this, ModSpellRegistry.ACROBATICS_SPELL.get(), 1, 1, 100, 250, 3));
-        this.goalSelector.addGoal(3, new WizardAttackGoal(this, 1.25f, 40, 80)
+        this.goalSelector.addGoal(2, new SpellBarrageGoal(this, ModSpellRegistry.ACROBATICS_SPELL.get(), 1, 1, 80, 200, 3));
+        this.goalSelector.addGoal(3, new WizardAttackGoal(this, 1.25f, 25, 50)
                 .setSpells(
                         List.of(ModSpellRegistry.WIND_BLADE_SPELL.get(), ModSpellRegistry.WIND_BLADE_SPELL.get(), ModSpellRegistry.WIND_BLADE_SPELL.get(), ModSpellRegistry.ACROBATICS_SPELL.get()),
                         List.of(SpellRegistry.GUST_SPELL.get(),SpellRegistry.GUST_SPELL.get(),ModSpellRegistry.ALMIGHTY_PUSH_SPELL.get()),

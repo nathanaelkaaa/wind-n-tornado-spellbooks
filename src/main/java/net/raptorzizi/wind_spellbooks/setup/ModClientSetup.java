@@ -3,6 +3,7 @@ package net.raptorzizi.wind_spellbooks.setup;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import io.redspace.ironsspellbooks.render.EnergySwirlLayer;
+import io.redspace.ironsspellbooks.render.SpellBookCurioRenderer;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -28,6 +29,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
 @EventBusSubscriber(
         modid = WindSpellbooksMod.MOD_ID,
@@ -66,6 +68,12 @@ public class ModClientSetup {
 
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
+        event.enqueueWork(() -> {
+            CuriosRendererRegistry.register(
+                    ModItemsRegistry.WIND_SPELL_BOOK.get(),
+                    SpellBookCurioRenderer::new
+            );
+        });
     }
 
     private static void addLayerToPlayerSkin(EntityRenderersEvent.AddLayers event,

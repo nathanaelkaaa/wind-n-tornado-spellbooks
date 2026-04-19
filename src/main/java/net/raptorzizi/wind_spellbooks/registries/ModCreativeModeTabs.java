@@ -16,10 +16,13 @@ public class ModCreativeModeTabs {
             event.accept(ModItemsRegistry.AEROMANCER_LEGGINGS.get());
             event.accept(ModItemsRegistry.AEROMANCER_BOOTS.get());
             event.accept(ModItemsRegistry.WIND_STAFF.get());
+            event.accept(ModItemsRegistry.WIND_SPELL_BOOK.get());
         }
 
         if (event.getTabKey() == CreativeTabRegistry.MATERIALS_TAB.getKey()) {
             event.accept(ModItemsRegistry.AEROMANCER_SPAWN_EGG.get());
+            event.accept(ModItemsRegistry.WIND_UPGRADE_ORB.get());
+            event.accept(ModItemsRegistry.WIND_RUNE.get());
         }
     }
 

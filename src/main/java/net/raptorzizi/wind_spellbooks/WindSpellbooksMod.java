@@ -1,5 +1,6 @@
 package net.raptorzizi.wind_spellbooks;
 
+import io.redspace.ironsspellbooks.registries.UpgradeOrbTypeRegistry;
 import net.minecraft.resources.ResourceLocation;
 import net.raptorzizi.wind_spellbooks.config.ModClientConfigs;
 import net.raptorzizi.wind_spellbooks.config.ModServerConfigs;
