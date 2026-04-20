@@ -1,6 +1,7 @@
 package net.raptorzizi.wind_spellbooks.entity.mobs.wizards.aeromancer;
 
 import com.google.common.collect.Sets;
+import io.redspace.ironsspellbooks.IronsSpellbooks;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import io.redspace.ironsspellbooks.api.util.Utils;
@@ -223,10 +224,22 @@ public class AeromancerEntity extends NeutralWizard implements IMerchantWizard {
                 this.offers.add(new AdditionalWanderingTrades.RandomScrollTrade(new SpellFilter(ModSchoolRegistry.WIND.get()), .8f, 1f).getOffer(this, this.random));
             }
             this.offers.add(new AdditionalWanderingTrades.SimpleSell(3, new ItemStack(Items.WIND_CHARGE), 12, 16).getOffer(this, this.random));
+
+            if (this.random.nextFloat() < 0.4f) {
+                this.offers.add(new MerchantOffer(
+                        new ItemCost(Items.EMERALD, 45),
+                        Optional.empty(),
+                        new ItemStack(ModItemsRegistry.WIND_SPELL_BOOK.get()),
+                        1,
+                        15,
+                        0.05f
+                ));
+            }
+
             this.offers.add(new MerchantOffer(
                     new ItemCost(Items.EMERALD, 24),
                     Optional.empty(),
-                    FurledMapItem.of(WindSpellbooksMod.id("mangrove_hut"), Component.translatable("item.irons_spellbooks.alchemical_trade_route")),
+                    FurledMapItem.of(IronsSpellbooks.id("mountain_tower"), Component.translatable("item.wind_spellbooks.moutain_tower_map")),
                     0,
                     1,
                     5,
@@ -235,7 +248,7 @@ public class AeromancerEntity extends NeutralWizard implements IMerchantWizard {
             this.offers.add(new MerchantOffer(
                     new ItemCost(ItemRegistry.CHAINED_BOOK.get(), 4),
                     Optional.empty(),
-                    ItemRegistry.FIRE_RUNE.get().getDefaultInstance(),
+                    ModItemsRegistry.WIND_RUNE.get().getDefaultInstance(),
                     0,
                     1,
                     5,

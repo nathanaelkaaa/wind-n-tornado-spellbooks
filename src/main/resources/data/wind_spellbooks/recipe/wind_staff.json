@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "  W",
+    " B ",
+    "B  "
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:wind_charge"
+    },
+    "B": {
+      "item": "minecraft:breeze_rod"
+    }
+  },
+  "result": {
+    "id": "wind_spellbooks:wind_staff",
+    "count": 1
+  }
+}
