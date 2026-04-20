@@ -29,7 +29,7 @@
   "spell.wind_spellbooks.tailwind.guide": "Imbue yourself with the strength of the wind, increasing your speed and your mobility in the air.",
 
   "item.wind_spellbooks.wind_staff": "Wind Staff",
-  "item.wind_spellbooks.wind_spell_book": "Book of Tempest's",
+  "item.wind_spellbooks.wind_spell_book": "Book of Tempests",
   "item.wind_spellbooks.wind_upgrade_orb": "Wind Upgrade Orb",
   "item.wind_spellbooks.wind_rune": "Wind Rune",
 
@@ -43,6 +43,8 @@
   "entity.wind_spellbooks.aeromancer": "Aeromancer",
 
   "affix.wind_spellbooks:spellbook/attribute/fire_spell_power": "Aeromancer's",
+
+  "item.wind_spellbooks.moutain_tower_map": "Alone Wizard Tower",
 
   "death.attack.wind_magic": "%1$s was slain by %2$s's wind magic",
 
@@ -59,5 +61,8 @@
   "death.attack.wind_spellbooks.almighty_push.item": "%1$s was blasted by %2$s while using %3$s",
 
   "death.attack.wind_spellbooks.wind_blade": "%1$s's life was severed by %2$s",
-  "death.attack.irons_spellbooks.blood_slash.item": "%1$s's life was severed by %2$s using %3$s"
+  "death.attack.wind_spellbooks.wind_blade.item": "%1$s's life was severed by %2$s using %3$s",
+
+  "advancements.wind_spellbooks.spell_book_wind.title": "Gone with the Wind",
+  "advancements.wind_spellbooks.spell_book_wind.description": "Obtain a Book of Tempests."
 }

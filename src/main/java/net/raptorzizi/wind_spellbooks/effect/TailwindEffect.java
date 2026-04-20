@@ -10,7 +10,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.raptorzizi.wind_spellbooks.WindSpellbooksMod;
 
-//CHEKK
 public class TailwindEffect extends MagicMobEffect implements ISyncedMobEffect {
 
     public static final float MAX_AIR_SPEED_PER_LEVEL = 0.15f;
@@ -56,6 +55,8 @@ public class TailwindEffect extends MagicMobEffect implements ISyncedMobEffect {
 
     @Override
     public boolean applyEffectTick(LivingEntity entity, int amplifier) {
+        entity.fallDistance = 0;
+
         if (!entity.onGround() && entity.getDeltaMovement().y < 0
                 && entity.getDeltaMovement().y > -0.5) {
             entity.setDeltaMovement(
