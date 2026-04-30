@@ -4,11 +4,7 @@ import io.redspace.ironsspellbooks.effect.ISyncedMobEffect;
 import io.redspace.ironsspellbooks.effect.MagicMobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-
-import java.util.UUID;
 
 public class TailwindEffect extends MagicMobEffect implements ISyncedMobEffect {
 
@@ -16,32 +12,8 @@ public class TailwindEffect extends MagicMobEffect implements ISyncedMobEffect {
     public static final float JUMP_BASE               = 0.50f;
     public static final float JUMP_PER_LEVEL          = 0.30f;
 
-    // UUID stables pour identifier les modificateurs d'attributs
-    private static final UUID JUMP_ID =
-            UUID.fromString("a3b4c5d6-e7f8-9012-abcd-ef1234567801");
-
     public TailwindEffect(MobEffectCategory category, int color) {
         super(category, color);
-    }
-
-    @Override
-    public void onEffectAdded(LivingEntity entity, int amplifier) {
-        var jumpAttr = entity.getAttribute(Attributes.JUMP_STRENGTH);
-        if (jumpAttr != null) {
-            jumpAttr.removeModifier(JUMP_ID);
-            jumpAttr.addTransientModifier(new AttributeModifier(
-                    JUMP_ID,
-                    "Tailwind jump boost",
-                    JUMP_BASE + JUMP_PER_LEVEL * amplifier,
-                    AttributeModifier.Operation.MULTIPLY_TOTAL
-            ));
-        }
-    }
-
-    @Override
-    public void onEffectRemoved(LivingEntity entity, int amplifier) {
-        var jumpAttr = entity.getAttribute(Attributes.JUMP_STRENGTH);
-        if (jumpAttr != null) jumpAttr.removeModifier(JUMP_ID);
     }
 
     @Override
@@ -81,5 +53,13 @@ public class TailwindEffect extends MagicMobEffect implements ISyncedMobEffect {
                 );
             }
         }
+    }
+
+    /**
+     * Calcule le multiplicateur de saut pour un amplifier donné.
+     * Utilisé par MixinLivingEntityJump.
+     */
+    public static double getJumpMultiplier(int amplifier) {
+        return 1.0 + JUMP_BASE + JUMP_PER_LEVEL * amplifier;
     }
 }
