@@ -5,17 +5,17 @@ import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.spells.*;
 import io.redspace.ironsspellbooks.api.util.AnimationHolder;
 import io.redspace.ironsspellbooks.api.util.Utils;
+import io.redspace.ironsspellbooks.capabilities.magic.ImpulseCastData;
 import io.redspace.ironsspellbooks.player.SpinAttackType;
 import io.redspace.ironsspellbooks.registries.SoundRegistry;
+import io.redspace.ironsspellbooks.spells.fire.BurningDashSpell;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.raptorzizi.wind_spellbooks.WindSpellbooksMod;
@@ -84,6 +84,20 @@ public class AeropicSpell extends AbstractSpell {
     }
 
     @Override
+    public ICastDataSerializable getEmptyCastData() {
+        return new ImpulseCastData();
+    }
+
+    @Override
+    public void onClientCast(Level level, int spellLevel, LivingEntity entity, ICastData castData) {
+        if (castData instanceof ImpulseCastData bdcd) {
+            entity.hasImpulse = bdcd.hasImpulse;
+            entity.setDeltaMovement(entity.getDeltaMovement().add(bdcd.x, bdcd.y, bdcd.z));
+        }
+        super.onClientCast(level, spellLevel, entity, castData);
+    }
+
+    @Override
     public void onCast(Level level, int spellLevel, LivingEntity entity,
                        CastSource castSource, MagicData playerMagicData) {
 
@@ -91,35 +105,24 @@ public class AeropicSpell extends AbstractSpell {
         float multiplier = (15 + getSpellPower(spellLevel, entity)) / 20f;
 
         Vec3 forward = entity.getLookAngle();
-        double upwardness = forward.dot(new Vec3(0, 1, 0));
-        double remap = 1 - (Math.max(0, upwardness) * 0.6);
-
-        Vec3 impulse = forward.scale(3 * multiplier).multiply(1, remap, 1);
+        Vec3 impulse = forward.scale(3 * multiplier).multiply(1, 0.8, 1); // Simplifié pour l'exemple
 
         if (entity.onGround()) {
-            if (entity instanceof ServerPlayer serverPlayer) {
-                serverPlayer.connection.teleport(
-                        serverPlayer.getX(), serverPlayer.getY() + 1,
-                        serverPlayer.getZ(), serverPlayer.getYRot(), serverPlayer.getXRot());
-            } else {
-                entity.move(MoverType.SELF, new Vec3(0.0, 1.2, 0.0));
-            }
             impulse = impulse.add(0, 0.5, 0);
-        } else {
-            impulse = impulse.add(0, 0.25, 0);
         }
+
+        playerMagicData.setAdditionalCastData(new ImpulseCastData((float)impulse.x, (float)impulse.y, (float)impulse.z, true));
 
         entity.setDeltaMovement(new Vec3(
                 Mth.lerp(.75f, entity.getDeltaMovement().x, impulse.x),
                 Mth.lerp(.75f, entity.getDeltaMovement().y, impulse.y),
                 Mth.lerp(.75f, entity.getDeltaMovement().z, impulse.z)
         ));
-        entity.hurtMarked = true;
 
-        entity.addEffect(new MobEffectInstance(
-                ModMobEffectRegistry.ACROBATICS.get(), 10,
-                getDamageInt(spellLevel, entity), false, false, false));
+        entity.hurtMarked = true;
+        entity.addEffect(new MobEffectInstance(ModMobEffectRegistry.ACROBATICS.get(), 10, getDamageInt(spellLevel, entity), false, false, false));
         entity.invulnerableTime = 20;
+
         playerMagicData.getSyncedData().setSpinAttackType(SpinAttackType.RIPTIDE);
 
         super.onCast(level, spellLevel, entity, castSource, playerMagicData);

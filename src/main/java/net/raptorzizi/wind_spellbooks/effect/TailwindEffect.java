@@ -9,8 +9,8 @@ import net.minecraft.world.phys.Vec3;
 
 public class TailwindEffect extends MagicMobEffect implements ISyncedMobEffect {
     public static final float MAX_AIR_SPEED_PER_LEVEL = 0.15f;
-    public static final float JUMP_BASE = 0.50f;
-    public static final float JUMP_PER_LEVEL = 0.30f;
+    public static final float JUMP_BASE               = 0.50f;
+    public static final float JUMP_PER_LEVEL          = 0.30f;
 
     public TailwindEffect(MobEffectCategory category, int color) {
         super(category, color);
@@ -27,9 +27,12 @@ public class TailwindEffect extends MagicMobEffect implements ISyncedMobEffect {
 
         Vec3 motion = entity.getDeltaMovement();
 
-        if (!entity.onGround() && motion.y < 0) {
-            double slowFallSpeed = -0.12;
-            entity.setDeltaMovement(motion.x, Math.max(motion.y, slowFallSpeed), motion.z);
+        if (!entity.onGround() && motion.y < 0 && motion.y > -0.5) {
+            entity.setDeltaMovement(
+                    motion.x,
+                    Math.max(motion.y, -0.10),
+                    motion.z
+            );
             motion = entity.getDeltaMovement();
         }
 
@@ -43,7 +46,11 @@ public class TailwindEffect extends MagicMobEffect implements ISyncedMobEffect {
                 double boost = Math.min(0.004 * (amplifier + 1), maxAirSpeed - horizontalSpeed);
                 double nx = dx / horizontalSpeed;
                 double nz = dz / horizontalSpeed;
-                entity.setDeltaMovement(dx + nx * boost, motion.y, dz + nz * boost);
+                entity.setDeltaMovement(
+                        dx + nx * boost,
+                        motion.y,
+                        dz + nz * boost
+                );
             }
         }
     }
