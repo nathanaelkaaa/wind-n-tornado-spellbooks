@@ -9,7 +9,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -17,11 +16,10 @@ import net.raptorzizi.wind_spellbooks.WindSpellbooksMod;
 import net.raptorzizi.wind_spellbooks.effect.TailwindEffect;
 import net.raptorzizi.wind_spellbooks.registries.ModMobEffectRegistry;
 import net.raptorzizi.wind_spellbooks.registries.ModSchoolRegistry;
+import net.raptorzizi.wind_spellbooks.registries.ModSoundRegistry;
 
 import java.util.List;
 import java.util.Optional;
-
-//CHEKK
 
 public class TailwindSpell extends AbstractSpell {
 
@@ -50,7 +48,10 @@ public class TailwindSpell extends AbstractSpell {
                         Utils.timeFromTicks(getSpellPower(spellLevel, caster) * 20, 1)),
                 Component.translatable("attribute.modifier.plus.1",
                         Utils.stringTruncation(getPercentAirSpeed(spellLevel), 0),
-                        Component.literal("Air Speed"))
+                        Component.literal("Air Speed")),
+                Component.translatable("attribute.modifier.plus.1",
+                        Utils.stringTruncation(getPercentJump(spellLevel), 0),
+                        Component.translatable("attribute.name.generic.jump_strength"))
         );
     }
 
@@ -60,7 +61,7 @@ public class TailwindSpell extends AbstractSpell {
 
     @Override
     public Optional<SoundEvent> getCastStartSound() {
-        return Optional.of(SoundEvents.EVOKER_CAST_SPELL);
+        return Optional.of(ModSoundRegistry.WIND_CHARGE_BURST.get());
     }
 
     @Override
@@ -82,6 +83,10 @@ public class TailwindSpell extends AbstractSpell {
 
     private float getPercentAirSpeed(int spellLevel) {
         return spellLevel * TailwindEffect.MAX_AIR_SPEED_PER_LEVEL * 100f;
+    }
+
+    private float getPercentJump(int spellLevel) {
+        return (TailwindEffect.JUMP_BASE + TailwindEffect.JUMP_PER_LEVEL * (spellLevel - 1)) * 100f;
     }
 
     @Override public AnimationHolder getCastStartAnimation() { return SpellAnimations.SELF_CAST_ANIMATION; }

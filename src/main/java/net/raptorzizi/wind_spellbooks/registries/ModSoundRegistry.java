@@ -20,6 +20,8 @@ public class ModSoundRegistry {
             registerSoundEvent("entity.tornado.loop");
     public static RegistryObject<SoundEvent> TORNADO_FIRE_LOOP =
             registerSoundEvent("entity.tornado.fire.loop");
+    public static RegistryObject<SoundEvent> WIND_CHARGE_BURST =
+            registerSoundEvent("entity.wind_charge.wind_burst");
 
     private static RegistryObject<SoundEvent> registerSoundEvent(String name) {
         return SOUND_EVENTS.register(name, () ->

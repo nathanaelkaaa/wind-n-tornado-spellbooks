@@ -10,5 +10,12 @@
       "wind_spellbooks:fire_tornado_loop_1",
       "wind_spellbooks:fire_tornado_loop_2"
     ]
+  },
+  "entity.wind_charge.wind_burst": {
+    "sounds": [
+      "wind_spellbooks:entity/wind_charge/wind_burst1",
+      "wind_spellbooks:entity/wind_charge/wind_burst2",
+      "wind_spellbooks:entity/wind_charge/wind_burst3"
+    ]
   }
 }
