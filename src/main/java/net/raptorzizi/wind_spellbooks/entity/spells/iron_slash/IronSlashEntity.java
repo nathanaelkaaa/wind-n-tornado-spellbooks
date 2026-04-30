@@ -4,19 +4,20 @@ import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
 import io.redspace.ironsspellbooks.registries.MobEffectRegistry;
 import io.redspace.ironsspellbooks.registries.SoundRegistry;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
+import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.raptorzizi.wind_spellbooks.registries.ModEntityRegistry;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class IronSlashEntity extends Entity implements IEntityWithComplexSpawn {
+public class IronSlashEntity extends Entity implements IEntityAdditionalSpawnData {
 
     public static final int DELAY_BEFORE_DAMAGE = 15;
 
@@ -113,7 +114,7 @@ public class IronSlashEntity extends Entity implements IEntityWithComplexSpawn {
 
             if (iceMode) {
                 target.addEffect(new MobEffectInstance(
-                        MobEffectRegistry.CHILLED,
+                        MobEffectRegistry.CHILLED.get(),
                         (int)(target.getTicksRequiredToFreeze() * 2),
                         1, false, false, true));
 
@@ -150,7 +151,7 @@ public class IronSlashEntity extends Entity implements IEntityWithComplexSpawn {
     }
 
     @Override
-    public void writeSpawnData(RegistryFriendlyByteBuf buffer) {
+    public void writeSpawnData(FriendlyByteBuf buffer) {
         buffer.writeDouble(start.x);
         buffer.writeDouble(start.y);
         buffer.writeDouble(start.z);
@@ -165,7 +166,7 @@ public class IronSlashEntity extends Entity implements IEntityWithComplexSpawn {
     }
 
     @Override
-    public void readSpawnData(RegistryFriendlyByteBuf buffer) {
+    public void readSpawnData(FriendlyByteBuf buffer) {
         this.start = new Vec3(buffer.readDouble(), buffer.readDouble()-0.2, buffer.readDouble());
         this.end   = new Vec3(buffer.readDouble(), buffer.readDouble()-0.2, buffer.readDouble());
         this.setPos(start);
@@ -174,7 +175,7 @@ public class IronSlashEntity extends Entity implements IEntityWithComplexSpawn {
         this.setXRot((float) Math.toDegrees(Math.atan2(dir.y, Math.sqrt(dir.x * dir.x + dir.z * dir.z))) * -1);
     }
 
-    @Override protected void defineSynchedData(SynchedEntityData.Builder builder) {}
+    @Override protected void defineSynchedData() {}
     @Override protected void readAdditionalSaveData(CompoundTag tag) {}
     @Override protected void addAdditionalSaveData(CompoundTag tag) {}
 }

@@ -1,40 +1,36 @@
 package net.raptorzizi.wind_spellbooks.util;
 
-import io.redspace.ironsspellbooks.entity.spells.snowball.FrostField;
 import io.redspace.ironsspellbooks.registries.MobEffectRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Fireball;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
 
-import java.util.List;
 import java.util.Set;
 
 public class ElementCheck {
 
     private static final Set<ResourceLocation> FIRE_ENTITY_IDS = Set.of(
-            ResourceLocation.fromNamespaceAndPath("irons_spellbooks", "firebolt"),
-            ResourceLocation.fromNamespaceAndPath("irons_spellbooks", "magma_ball"),
-            ResourceLocation.fromNamespaceAndPath("irons_spellbooks", "fire_arrow_projectile"),
-            ResourceLocation.fromNamespaceAndPath("irons_spellbooks", "magic_fireball"),
-            ResourceLocation.fromNamespaceAndPath("irons_spellbooks", "fire_breath"),
-            ResourceLocation.fromNamespaceAndPath("irons_spellbooks", "blaze_storm"),
-            ResourceLocation.fromNamespaceAndPath("irons_spellbooks", "fire_field"),
-            ResourceLocation.fromNamespaceAndPath("irons_spellbooks", "flaming_strike"),
-            ResourceLocation.fromNamespaceAndPath("irons_spellbooks", "heat_surge"),
-            ResourceLocation.fromNamespaceAndPath("irons_spellbooks", "wall_of_fire"),
-            ResourceLocation.fromNamespaceAndPath("irons_spellbooks", "scorch"),
-            ResourceLocation.fromNamespaceAndPath("minecraft", "fireball"),
-            ResourceLocation.fromNamespaceAndPath("minecraft", "small_fireball"),
-            ResourceLocation.fromNamespaceAndPath("minecraft", "dragon_fireball")
+            new ResourceLocation("irons_spellbooks", "firebolt"),
+            new ResourceLocation("irons_spellbooks", "magma_ball"),
+            new ResourceLocation("irons_spellbooks", "fire_arrow_projectile"),
+            new ResourceLocation("irons_spellbooks", "magic_fireball"),
+            new ResourceLocation("irons_spellbooks", "fire_breath"),
+            new ResourceLocation("irons_spellbooks", "blaze_storm"),
+            new ResourceLocation("irons_spellbooks", "fire_field"),
+            new ResourceLocation("irons_spellbooks", "flaming_strike"),
+            new ResourceLocation("irons_spellbooks", "heat_surge"),
+            new ResourceLocation("irons_spellbooks", "wall_of_fire"),
+            new ResourceLocation("irons_spellbooks", "scorch"),
+            new ResourceLocation("minecraft", "fireball"),
+            new ResourceLocation("minecraft", "small_fireball"),
+            new ResourceLocation("minecraft", "dragon_fireball")
     );
 
     private static final Set<ResourceLocation> ICE_ENTITY_IDS = Set.of(
-            ResourceLocation.fromNamespaceAndPath("irons_spellbooks", "snowball"),
-            ResourceLocation.fromNamespaceAndPath("irons_spellbooks", "frost_field")
+            new ResourceLocation("irons_spellbooks", "snowball"),
+            new ResourceLocation("irons_spellbooks", "frost_field")
     );
 
     public static boolean isFireEntity(Entity e) {
@@ -45,27 +41,11 @@ public class ElementCheck {
     }
 
     public static boolean hasIceConditions(LivingEntity caster) {
-
-        if (!caster.hasEffect(MobEffectRegistry.FROSTBITTEN_STRIKES)) return isInIceEntity(caster);
+        if (!caster.hasEffect(MobEffectRegistry.FROSTBITTEN_STRIKES.get())) return isInIceEntity(caster);
         return true;
     }
 
-    //Player
-
-    //Ajouter la logique par ID TODO
     private static boolean isInIceEntity(LivingEntity caster) {
-        Level level = caster.level();
-        List<Entity> nearby = level.getEntities(null,
-                new AABB(caster.position(), caster.position()).inflate(8));
-
-        for (Entity e : nearby) {
-            if (e instanceof FrostField frostField) {
-                double dist = caster.distanceTo(frostField);
-                if (dist <= frostField.getRadius()) {
-                    return true;
-                }
-            }
-        }
         return false;
     }
 }

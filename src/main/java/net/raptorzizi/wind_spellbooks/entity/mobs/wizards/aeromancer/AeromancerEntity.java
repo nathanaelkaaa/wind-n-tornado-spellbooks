@@ -34,7 +34,6 @@ import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.item.trading.MerchantOffers;
 import net.minecraft.world.level.Level;
@@ -62,7 +61,7 @@ public class AeromancerEntity extends NeutralWizard implements IMerchantWizard {
         this.goalSelector.addGoal(3, new WizardAttackGoal(this, 1.25f, 25, 50)
                 .setSpells(
                         List.of(ModSpellRegistry.WIND_BLADE_SPELL.get(), ModSpellRegistry.WIND_BLADE_SPELL.get(), ModSpellRegistry.WIND_BLADE_SPELL.get(), ModSpellRegistry.ACROBATICS_SPELL.get()),
-                        List.of(SpellRegistry.GUST_SPELL.get(),SpellRegistry.GUST_SPELL.get(),ModSpellRegistry.ALMIGHTY_PUSH_SPELL.get()),
+                        List.of(SpellRegistry.GUST_SPELL.get(), SpellRegistry.GUST_SPELL.get(), ModSpellRegistry.ALMIGHTY_PUSH_SPELL.get()),
                         List.of(ModSpellRegistry.WIND_JUMP_SPELL.get()),
                         List.of(ModSpellRegistry.TAILWIND_SPELL.get())
                 )
@@ -73,19 +72,16 @@ public class AeromancerEntity extends NeutralWizard implements IMerchantWizard {
         this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(10, new WizardRecoverGoal(this));
 
-        //this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        //this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, this::isHostileTowards));
         this.targetSelector.addGoal(5, new ResetUniversalAngerTargetGoal<>(this, false));
-
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
         RandomSource randomsource = Utils.random;
         this.populateDefaultEquipmentSlots(randomsource, pDifficulty);
-        return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData);
+        return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
     }
 
     @Override
@@ -133,10 +129,8 @@ public class AeromancerEntity extends NeutralWizard implements IMerchantWizard {
     @Nullable
     protected MerchantOffers offers;
 
-    //Serialized
     private long lastRestockGameTime;
     private int numberOfRestocksToday;
-    //Not Serialized
     private long lastRestockCheckDayTime;
 
     @Override
@@ -223,51 +217,41 @@ public class AeromancerEntity extends NeutralWizard implements IMerchantWizard {
             if (this.random.nextFloat() < .8f) {
                 this.offers.add(new AdditionalWanderingTrades.RandomScrollTrade(new SpellFilter(ModSchoolRegistry.WIND.get()), .8f, 1f).getOffer(this, this.random));
             }
-            this.offers.add(new AdditionalWanderingTrades.SimpleSell(3, new ItemStack(Items.WIND_CHARGE), 12, 16).getOffer(this, this.random));
+            this.offers.add(new AdditionalWanderingTrades.SimpleSell(3, new ItemStack(Items.FEATHER), 12, 16).getOffer(this, this.random));
 
             if (this.random.nextFloat() < 0.4f) {
                 this.offers.add(new MerchantOffer(
-                        new ItemCost(Items.EMERALD, 45),
-                        Optional.empty(),
+                        new ItemStack(Items.EMERALD, 45),
                         new ItemStack(ModItemsRegistry.WIND_SPELL_BOOK.get()),
-                        1,
-                        15,
-                        0.05f
+                        1, 15, 0.05f
                 ));
             }
 
             this.offers.add(new MerchantOffer(
-                    new ItemCost(Items.EMERALD, 24),
-                    Optional.empty(),
+                    new ItemStack(Items.EMERALD, 24),
+                    ItemStack.EMPTY,
                     FurledMapItem.of(IronsSpellbooks.id("mountain_tower"), Component.translatable("item.wind_spellbooks.moutain_tower_map")),
-                    0,
-                    1,
-                    5,
-                    10f
+                    0, 1, 5, 10f
             ));
             this.offers.add(new MerchantOffer(
-                    new ItemCost(ItemRegistry.CHAINED_BOOK.get(), 4),
-                    Optional.empty(),
+                    new ItemStack(ItemRegistry.CHAINED_BOOK.get(), 4),
+                    ItemStack.EMPTY,
                     ModItemsRegistry.WIND_RUNE.get().getDefaultInstance(),
-                    0,
-                    1,
-                    5,
-                    0.1f
+                    0, 1, 5, 0.1f
             ));
             this.offers.removeIf(Objects::isNull);
-            //We count the creation of our stock as a restock so that we do not immediately refresh trades the same day.
             setLastRestockGameTime(level().getGameTime());
         }
         return this.offers;
     }
 
     private static final List<VillagerTrades.ItemListing> fillerOffers = List.of(
-            new AdditionalWanderingTrades.SimpleBuy(16, new ItemCost(Items.FEATHER, 4), 1, 1),
+            new AdditionalWanderingTrades.SimpleBuy(16, new ItemStack(Items.FEATHER, 4), 1, 1),
             new AdditionalWanderingTrades.SimpleSell(8, new ItemStack(Items.FEATHER, 4), 10, 14),
             new AdditionalWanderingTrades.SimpleSell(8, new ItemStack(Items.WHITE_WOOL, 3), 9, 13),
             new AdditionalWanderingTrades.SimpleSell(12, new ItemStack(Items.PHANTOM_MEMBRANE, 2), 10, 15),
-            new AdditionalWanderingTrades.SimpleBuy(16, new ItemCost(Items.HONEY_BOTTLE, 2), 3, 5),
-            new AdditionalWanderingTrades.SimpleBuy(16, new ItemCost(Items.BREEZE_ROD, 3), 4, 6)
+            new AdditionalWanderingTrades.SimpleBuy(16, new ItemStack(Items.HONEY_BOTTLE, 2), 3, 5),
+            new AdditionalWanderingTrades.SimpleBuy(16, new ItemStack(Items.FEATHER, 3), 4, 6)
     );
 
     private Collection<MerchantOffer> createRandomOffers(int min, int max) {
@@ -285,14 +269,12 @@ public class AeromancerEntity extends NeutralWizard implements IMerchantWizard {
 
     @Override
     public void overrideOffers(MerchantOffers pOffers) {
-
     }
 
     @Override
     public void notifyTrade(MerchantOffer pOffer) {
         pOffer.increaseUses();
         this.ambientSoundTime = -this.getAmbientSoundInterval();
-        //this.rewardTradeXp(pOffer);
     }
 
     @Override

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/handheld",
-  "loader": "neoforge:separate_transforms",
+  "loader": "forge:separate_transforms",
   "base": {
     "textures": {
       "book": "wind_spellbooks:item/spell_book_models/wind_spell_book",

@@ -24,7 +24,7 @@ import java.util.Optional;
 public class WindBladeSpell extends AbstractSpell {
 
     private final ResourceLocation spellId =
-            ResourceLocation.fromNamespaceAndPath(WindSpellbooksMod.MOD_ID, "wind_blade");
+            new ResourceLocation(WindSpellbooksMod.MOD_ID, "wind_blade");
 
     private final DefaultConfig defaultConfig = new DefaultConfig()
             .setMinRarity(SpellRarity.COMMON)
@@ -52,7 +52,7 @@ public class WindBladeSpell extends AbstractSpell {
 
     @Override
     public Optional<SoundEvent> getCastStartSound() {
-        return Optional.of(SoundEvents.BREEZE_WIND_CHARGE_BURST.value());
+        return Optional.of(SoundEvents.EVOKER_CAST_SPELL);
     }
 
     @Override

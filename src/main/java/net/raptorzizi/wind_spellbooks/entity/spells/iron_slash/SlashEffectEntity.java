@@ -1,17 +1,17 @@
 package net.raptorzizi.wind_spellbooks.entity.spells.iron_slash;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
+import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.raptorzizi.wind_spellbooks.registries.ModEntityRegistry;
 
-public class SlashEffectEntity extends Entity implements IEntityWithComplexSpawn {
+public class SlashEffectEntity extends Entity implements IEntityAdditionalSpawnData {
 
     public static final int LIFETIME = 10;
     private float yRot;
@@ -47,14 +47,14 @@ public class SlashEffectEntity extends Entity implements IEntityWithComplexSpawn
     }
 
     @Override
-    public void writeSpawnData(RegistryFriendlyByteBuf buffer) {
+    public void writeSpawnData(FriendlyByteBuf buffer) {
         buffer.writeFloat(yRot);
         buffer.writeFloat(randomRotOffset);
         buffer.writeBoolean(iceMode);
     }
 
     @Override
-    public void readSpawnData(RegistryFriendlyByteBuf buffer) {
+    public void readSpawnData(FriendlyByteBuf buffer) {
         this.yRot = buffer.readFloat();
         this.randomRotOffset = buffer.readFloat();
         this.iceMode = buffer.readBoolean();
@@ -63,7 +63,7 @@ public class SlashEffectEntity extends Entity implements IEntityWithComplexSpawn
     @Override
     public boolean shouldBeSaved() { return false; }
 
-    @Override protected void defineSynchedData(SynchedEntityData.Builder builder) {}
+    @Override protected void defineSynchedData() {}
     @Override protected void readAdditionalSaveData(CompoundTag tag) {}
     @Override protected void addAdditionalSaveData(CompoundTag tag) {}
 }

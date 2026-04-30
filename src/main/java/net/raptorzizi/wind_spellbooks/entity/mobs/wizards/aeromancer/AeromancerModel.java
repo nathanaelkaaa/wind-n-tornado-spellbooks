@@ -6,11 +6,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.raptorzizi.wind_spellbooks.WindSpellbooksMod;
 
 public class AeromancerModel extends AbstractSpellCastingMobModel {
-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(WindSpellbooksMod.MOD_ID, "textures/entity/aeromancer.png");
+    public static final ResourceLocation TEXTURE = new ResourceLocation(WindSpellbooksMod.MOD_ID, "textures/entity/aeromancer.png");
 
     @Override
     public ResourceLocation getTextureResource(AbstractSpellCastingMob object) {
         return TEXTURE;
     }
-
 }

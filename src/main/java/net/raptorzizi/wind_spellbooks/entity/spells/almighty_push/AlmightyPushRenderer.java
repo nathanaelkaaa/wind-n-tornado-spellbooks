@@ -28,7 +28,7 @@ public class AlmightyPushRenderer extends GeoEntityRenderer<AlmightyPushEntity> 
     public void preRender(PoseStack poseStack, AlmightyPushEntity entity, BakedGeoModel model,
                           MultiBufferSource bufferSource, VertexConsumer buffer,
                           boolean isReRender, float partialTick, int packedLight,
-                          int packedOverlay, int color) {
+                          int packedOverlay, float red, float green, float blue, float alpha) {
 
         float f = entity.tickCount + partialTick;
         float radius = entity.getRadius();
@@ -54,8 +54,7 @@ public class AlmightyPushRenderer extends GeoEntityRenderer<AlmightyPushEntity> 
     @Override
     public RenderType getRenderType(AlmightyPushEntity entity, ResourceLocation texture,
                                     MultiBufferSource bufferSource, float partialTick) {
-        float f = entity.tickCount + partialTick;
-        return RenderType.breezeWind(TEXTURE, xOffset(f) % 1.0f, 0.0f);
+        return RenderType.entityTranslucentEmissive(TEXTURE);
     }
 
     @Override

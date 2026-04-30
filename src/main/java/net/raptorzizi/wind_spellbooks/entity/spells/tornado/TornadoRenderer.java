@@ -70,7 +70,7 @@ public class TornadoRenderer extends GeoEntityRenderer<TornadoEntity> {
     public void preRender(PoseStack poseStack, TornadoEntity entity, BakedGeoModel model,
                           MultiBufferSource bufferSource, VertexConsumer buffer,
                           boolean isReRender, float partialTick, int packedLight,
-                          int packedOverlay, int color) {
+                          int packedOverlay, float red, float green, float blue, float alpha) {
 
         float f = entity.tickCount + partialTick;
         float radius = entity.getRadius();
@@ -101,7 +101,7 @@ public class TornadoRenderer extends GeoEntityRenderer<TornadoEntity> {
         ResourceLocation tex = currentTextureOverride != null
                 ? currentTextureOverride
                 : (entity.isTornadoOnFire() ? WIND_FIRE_TEXTURE : WIND_TEXTURE);
-        return RenderType.breezeWind(tex, xOffset(f) % 1.0f, 0.0f);
+        return RenderType.entityTranslucentEmissive(tex);
     }
 
     @Override

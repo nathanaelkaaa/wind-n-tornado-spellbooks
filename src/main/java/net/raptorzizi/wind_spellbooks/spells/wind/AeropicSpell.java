@@ -30,7 +30,7 @@ import java.util.Optional;
 public class AeropicSpell extends AbstractSpell {
 
     private final ResourceLocation spellId =
-            ResourceLocation.fromNamespaceAndPath(WindSpellbooksMod.MOD_ID, "aeropic");
+            new ResourceLocation(WindSpellbooksMod.MOD_ID, "aeropic");
 
     private final DefaultConfig defaultConfig = new DefaultConfig()
             .setMinRarity(SpellRarity.UNCOMMON)
@@ -117,7 +117,7 @@ public class AeropicSpell extends AbstractSpell {
         entity.hurtMarked = true;
 
         entity.addEffect(new MobEffectInstance(
-                ModMobEffectRegistry.ACROBATICS, 10,
+                ModMobEffectRegistry.ACROBATICS.get(), 10,
                 getDamageInt(spellLevel, entity), false, false, false));
         entity.invulnerableTime = 20;
         playerMagicData.getSyncedData().setSpinAttackType(SpinAttackType.RIPTIDE);

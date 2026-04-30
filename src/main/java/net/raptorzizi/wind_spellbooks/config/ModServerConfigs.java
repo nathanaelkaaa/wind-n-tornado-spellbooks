@@ -1,13 +1,13 @@
 package net.raptorzizi.wind_spellbooks.config;
 
-import net.neoforged.neoforge.common.ModConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 public class ModServerConfigs {
 
-    private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
-    public static final ModConfigSpec SPEC;
+    private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
+    public static final ForgeConfigSpec SPEC;
 
-    public static final ModConfigSpec.ConfigValue<Integer> TAVERN_SPAWNRATE;
+    public static final ForgeConfigSpec.ConfigValue<Integer> TAVERN_SPAWNRATE;
 
     static {
         {

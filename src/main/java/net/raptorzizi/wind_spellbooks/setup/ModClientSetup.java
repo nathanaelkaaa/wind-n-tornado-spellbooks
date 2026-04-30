@@ -7,13 +7,19 @@ import io.redspace.ironsspellbooks.render.SpellBookCurioRenderer;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+import java.util.function.Predicate;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.raptorzizi.wind_spellbooks.WindSpellbooksMod;
 import net.raptorzizi.wind_spellbooks.entity.mobs.wizards.aeromancer.AeromancerRenderer;
 import net.raptorzizi.wind_spellbooks.entity.spells.almighty_push.AlmightyPushRenderer;
@@ -22,30 +28,29 @@ import net.raptorzizi.wind_spellbooks.entity.spells.iron_slash.SlashEffectRender
 import net.raptorzizi.wind_spellbooks.entity.spells.tornado.TornadoRenderer;
 import net.raptorzizi.wind_spellbooks.entity.spells.wind_blade.WindBladeRenderer;
 import net.raptorzizi.wind_spellbooks.particle.FeatherParticle;
-import net.raptorzizi.wind_spellbooks.particle.TornadoGroundSmokeParticle;
 import net.raptorzizi.wind_spellbooks.particle.TornadoFireSmokeParticle;
-import net.raptorzizi.wind_spellbooks.registries.*;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.raptorzizi.wind_spellbooks.particle.TornadoGroundSmokeParticle;
+import net.raptorzizi.wind_spellbooks.registries.ModEntityRegistry;
+import net.raptorzizi.wind_spellbooks.registries.ModItemsRegistry;
+import net.raptorzizi.wind_spellbooks.registries.ModMobEffectRegistry;
+import net.raptorzizi.wind_spellbooks.registries.ModParticleRegistry;
 import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
-@EventBusSubscriber(
+@Mod.EventBusSubscriber(
         modid = WindSpellbooksMod.MOD_ID,
-        //bus = EventBusSubscriber.Bus.MOD,
+        bus = Mod.EventBusSubscriber.Bus.MOD,
         value = Dist.CLIENT
 )
 public class ModClientSetup {
 
     private static final ResourceLocation TAILWIND_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath("wind_spellbooks", "textures/entity/tailwind.png");
+            new ResourceLocation("wind_spellbooks", "textures/entity/tailwind.png");
 
 
     @SubscribeEvent
     public static void onAddLayers(EntityRenderersEvent.AddLayers event) {
-        addLayerToPlayerSkin(event, net.minecraft.client.resources.PlayerSkin.Model.SLIM);
-        addLayerToPlayerSkin(event, net.minecraft.client.resources.PlayerSkin.Model.WIDE);
+        addLayerToPlayerSkin(event, "slim");
+        addLayerToPlayerSkin(event, "default");
     }
 
     @SubscribeEvent
@@ -76,16 +81,15 @@ public class ModClientSetup {
         });
     }
 
-    private static void addLayerToPlayerSkin(EntityRenderersEvent.AddLayers event,
-                                             PlayerSkin.Model skinName) {
-        var render = event.getSkin(skinName);
+    private static void addLayerToPlayerSkin(EntityRenderersEvent.AddLayers event, String skinName) {
+        EntityRenderer<? extends Player> render = event.getSkin(skinName);
         if (render instanceof LivingEntityRenderer livingRenderer) {
-            livingRenderer.addLayer(new EnergySwirlLayer.Vanilla(livingRenderer, TAILWIND_TEXTURE, ModMobEffectRegistry.TAILWIND) {
+            livingRenderer.addLayer(new EnergySwirlLayer.Vanilla(livingRenderer, TAILWIND_TEXTURE, (Predicate<LivingEntity>) e -> e.hasEffect(ModMobEffectRegistry.TAILWIND.get())) {
                 @Override
                 public void render(PoseStack pMatrixStack, MultiBufferSource pBuffer, int pPackedLight,
                                    Player pLivingEntity, float pLimbSwing, float pLimbSwingAmount,
                                    float pPartialTicks, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
-                    if (pLivingEntity.hasEffect(ModMobEffectRegistry.TAILWIND)) {
+                    if (pLivingEntity.hasEffect(ModMobEffectRegistry.TAILWIND.get())) {
                         float f = (float) pLivingEntity.tickCount + pPartialTicks;
                         HumanoidModel<Player> entitymodel = this.model();
                         VertexConsumer vertexconsumer = pBuffer.getBuffer(
@@ -93,7 +97,7 @@ public class ModClientSetup {
                         );
                         this.getParentModel().copyPropertiesTo(entitymodel);
                         entitymodel.renderToBuffer(pMatrixStack, vertexconsumer, pPackedLight,
-                                OverlayTexture.NO_OVERLAY, 0x559d9d9d);
+                                OverlayTexture.NO_OVERLAY, 0.616f, 0.616f, 0.616f, 0.333f);
                     }
                 }
             });

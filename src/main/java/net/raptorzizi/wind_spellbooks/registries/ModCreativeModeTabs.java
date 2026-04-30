@@ -1,9 +1,9 @@
 package net.raptorzizi.wind_spellbooks.registries;
 
 import io.redspace.ironsspellbooks.registries.CreativeTabRegistry;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 
 public class ModCreativeModeTabs {
 

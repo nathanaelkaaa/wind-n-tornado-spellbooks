@@ -34,7 +34,7 @@ import java.util.Optional;
 public class IronSlashSpell extends AbstractSpell {
 
     private final ResourceLocation spellId =
-            ResourceLocation.fromNamespaceAndPath(WindSpellbooksMod.MOD_ID, "iron_slash");
+            new ResourceLocation(WindSpellbooksMod.MOD_ID, "iron_slash");
 
     private final DefaultConfig defaultConfig = new DefaultConfig()
             .setMinRarity(SpellRarity.UNCOMMON)

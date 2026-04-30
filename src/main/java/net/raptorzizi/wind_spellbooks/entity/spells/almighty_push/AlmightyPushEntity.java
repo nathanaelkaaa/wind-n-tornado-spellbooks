@@ -21,13 +21,13 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.entity.PartEntity;
+import net.minecraftforge.entity.PartEntity;
 import net.raptorzizi.wind_spellbooks.registries.ModEntityRegistry;
 import net.raptorzizi.wind_spellbooks.registries.ModSpellRegistry;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.HashSet;
@@ -110,10 +110,10 @@ public class AlmightyPushEntity extends AbstractShieldEntity implements GeoEntit
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
-        builder.define(DATA_RADIUS, 4f);
-        builder.define(DATA_LIFETIME, 50);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(DATA_RADIUS, 4f);
+        this.entityData.define(DATA_LIFETIME, 50);
     }
 
     @Override
@@ -215,7 +215,7 @@ public class AlmightyPushEntity extends AbstractShieldEntity implements GeoEntit
             target.hurtMarked = true;
 
             if (target instanceof LivingEntity living) {
-                living.addEffect(new MobEffectInstance(MobEffectRegistry.AIRBORNE, 20, amplifier));
+                living.addEffect(new MobEffectInstance(MobEffectRegistry.AIRBORNE.get(), 20, amplifier));
                 if (damage > 0 && owner instanceof LivingEntity livingOwner) {
                     DamageSources.applyDamage(living, damage * (float) forceFactor,
                             ModSpellRegistry.ALMIGHTY_PUSH_SPELL.get().getDamageSource(livingOwner));

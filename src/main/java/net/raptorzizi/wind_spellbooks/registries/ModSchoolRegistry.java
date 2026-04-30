@@ -5,8 +5,8 @@ import io.redspace.ironsspellbooks.registries.SoundRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
 import net.raptorzizi.wind_spellbooks.WindSpellbooksMod;
 import net.raptorzizi.wind_spellbooks.damage.ModDamageTypes;
 import net.raptorzizi.wind_spellbooks.util.ModTags;
@@ -14,7 +14,7 @@ import net.raptorzizi.wind_spellbooks.util.ModTags;
 import java.util.function.Supplier;
 import static io.redspace.ironsspellbooks.api.registry.SchoolRegistry.SCHOOL_REGISTRY_KEY;
 
-public class ModSchoolRegistry{
+public class ModSchoolRegistry {
 
     private static final DeferredRegister<SchoolType> SCHOOLS = DeferredRegister.create(SCHOOL_REGISTRY_KEY, WindSpellbooksMod.MOD_ID);
 
@@ -26,7 +26,7 @@ public class ModSchoolRegistry{
         return SCHOOLS.register(schoolType.getId().getPath(), () -> schoolType);
     }
 
-    public static final ResourceLocation WIND_RESOURCE = WindSpellbooksMod.id("wind");
+    public static final ResourceLocation WIND_RESOURCE = new ResourceLocation(WindSpellbooksMod.MOD_ID, "wind");
 
     public static final Supplier<SchoolType> WIND = registerSchool(new SchoolType(
             WIND_RESOURCE,
@@ -37,8 +37,4 @@ public class ModSchoolRegistry{
             SoundRegistry.EVOCATION_CAST,
             ModDamageTypes.WIND_MAGIC
     ));
-
-
-
-
 }

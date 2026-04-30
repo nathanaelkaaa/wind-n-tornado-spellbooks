@@ -9,7 +9,6 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.FastColor.ARGB32;
 import net.minecraft.util.Mth;
 import net.raptorzizi.wind_spellbooks.WindSpellbooksMod;
 import org.joml.Matrix4f;
@@ -42,6 +41,8 @@ public class SlashEffectRenderer extends EntityRenderer<SlashEffectEntity> {
         alpha = Mth.clamp(alpha, 0.0f, 1.0f);
         if (alpha < 0.01f) return;
 
+        int alphaInt = (int)(alpha * 255);
+
         float scale = Mth.clampedLerp(0.3f, 1.5f, Math.min(progress / 0.3f, 1.0f));
 
         poseStack.pushPose();
@@ -54,8 +55,6 @@ public class SlashEffectRenderer extends EntityRenderer<SlashEffectEntity> {
 
         poseStack.scale(scale, scale, scale);
 
-        int colorARGB = ARGB32.color((int)(alpha * 255), 255, 255, 255);
-
         VertexConsumer consumer = buffer.getBuffer(
                 RenderType.entityTranslucentEmissive(texture));
 
@@ -64,22 +63,18 @@ public class SlashEffectRenderer extends EntityRenderer<SlashEffectEntity> {
 
         float s = 1f;
 
-        consumer.addVertex(mat, -s, -s, 0f)
-                .setColor(colorARGB).setUv(0f, 1f)
-                .setOverlay(OverlayTexture.NO_OVERLAY).setLight(15728880)
-                .setNormal(pose, 0f, 0f, 1f);
-        consumer.addVertex(mat, -s, s, 0f)
-                .setColor(colorARGB).setUv(0f, 0f)
-                .setOverlay(OverlayTexture.NO_OVERLAY).setLight(15728880)
-                .setNormal(pose, 0f, 0f, 1f);
-        consumer.addVertex(mat, s, s, 0f)
-                .setColor(colorARGB).setUv(1f, 0f)
-                .setOverlay(OverlayTexture.NO_OVERLAY).setLight(15728880)
-                .setNormal(pose, 0f, 0f, 1f);
-        consumer.addVertex(mat, s, -s, 0f)
-                .setColor(colorARGB).setUv(1f, 1f)
-                .setOverlay(OverlayTexture.NO_OVERLAY).setLight(15728880)
-                .setNormal(pose, 0f, 0f, 1f);
+        consumer.vertex(mat, -s, -s, 0f).color(255, 255, 255, alphaInt)
+                .uv(0f, 1f).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(15728880)
+                .normal(pose.normal(), 0f, 0f, 1f).endVertex();
+        consumer.vertex(mat, -s, s, 0f).color(255, 255, 255, alphaInt)
+                .uv(0f, 0f).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(15728880)
+                .normal(pose.normal(), 0f, 0f, 1f).endVertex();
+        consumer.vertex(mat, s, s, 0f).color(255, 255, 255, alphaInt)
+                .uv(1f, 0f).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(15728880)
+                .normal(pose.normal(), 0f, 0f, 1f).endVertex();
+        consumer.vertex(mat, s, -s, 0f).color(255, 255, 255, alphaInt)
+                .uv(1f, 1f).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(15728880)
+                .normal(pose.normal(), 0f, 0f, 1f).endVertex();
 
         poseStack.popPose();
 

@@ -1,15 +1,14 @@
 package net.raptorzizi.wind_spellbooks.setup;
 
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
-import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.raptorzizi.wind_spellbooks.WindSpellbooksMod;
 import net.raptorzizi.wind_spellbooks.entity.mobs.wizards.aeromancer.AeromancerEntity;
 import net.raptorzizi.wind_spellbooks.registries.ModEntityRegistry;
 
-@EventBusSubscriber(modid = WindSpellbooksMod.MOD_ID)
-// bus = EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = WindSpellbooksMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModCommonSetup {
 
     @SubscribeEvent
@@ -18,6 +17,6 @@ public class ModCommonSetup {
     }
 
     @SubscribeEvent
-    public static void spawnPlacements(RegisterSpawnPlacementsEvent event) {
+    public static void spawnPlacements(SpawnPlacementRegisterEvent event) {
     }
 }

@@ -2,16 +2,16 @@ package net.raptorzizi.wind_spellbooks.registries;
 
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.core.registries.Registries;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.raptorzizi.wind_spellbooks.WindSpellbooksMod;
 
 import java.util.function.Supplier;
 
 public class ModParticleRegistry {
     public static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES =
-            DeferredRegister.create(Registries.PARTICLE_TYPE, WindSpellbooksMod.MOD_ID);
+            DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, WindSpellbooksMod.MOD_ID);
 
     public static void register(IEventBus eventBus) {
         PARTICLE_TYPES.register(eventBus);

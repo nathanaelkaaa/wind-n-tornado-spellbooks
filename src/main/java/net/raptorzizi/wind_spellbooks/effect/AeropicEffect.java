@@ -6,36 +6,54 @@ import io.redspace.ironsspellbooks.api.util.Utils;
 import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
 import io.redspace.ironsspellbooks.capabilities.magic.RecastInstance;
 import io.redspace.ironsspellbooks.damage.DamageSources;
-import io.redspace.ironsspellbooks.effect.ISyncedMobEffect;
 import io.redspace.ironsspellbooks.effect.MagicMobEffect;
-import io.redspace.ironsspellbooks.mixin.LivingEntityAccessor;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectCategory;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.raptorzizi.wind_spellbooks.registries.ModParticleRegistry;
 import net.raptorzizi.wind_spellbooks.registries.ModSpellRegistry;
 
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.UUID;
 
-public class AeropicEffect extends MagicMobEffect implements ISyncedMobEffect {
+public class AeropicEffect extends MagicMobEffect {
+
+    // setLivingEntityFlag is protected in LivingEntity; access via reflection (flag 4 = fall flying)
+    private static final Method SET_LIVING_ENTITY_FLAG;
+    static {
+        try {
+            SET_LIVING_ENTITY_FLAG = LivingEntity.class.getDeclaredMethod("setLivingEntityFlag", int.class, boolean.class);
+            SET_LIVING_ENTITY_FLAG.setAccessible(true);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException("Could not find LivingEntity#setLivingEntityFlag", e);
+        }
+    }
+
+    private static void setFallFlying(LivingEntity entity, boolean value) {
+        try {
+            SET_LIVING_ENTITY_FLAG.invoke(entity, 4, value);
+        } catch (Exception e) {
+            // no-op
+        }
+    }
 
     public AeropicEffect(MobEffectCategory pCategory, int pColor) {
         super(pCategory, pColor);
     }
 
     @Override
-    public boolean applyEffectTick(LivingEntity livingEntity, int amplifier) {
+    public void applyEffectTick(LivingEntity livingEntity, int amplifier) {
         var level = livingEntity.level();
         if (level.isClientSide) {
-            return true;
+            return;
         }
 
         Vec3 movement = livingEntity.getDeltaMovement();
@@ -61,7 +79,7 @@ public class AeropicEffect extends MagicMobEffect implements ISyncedMobEffect {
 
         if (!hitEntity) {
             livingEntity.fallDistance = 0;
-            return true;
+            return;
         }
 
         livingEntity.setDeltaMovement(0, livingEntity.getDeltaMovement().y, 0);
@@ -120,36 +138,23 @@ public class AeropicEffect extends MagicMobEffect implements ISyncedMobEffect {
         }
 
         double x = livingEntity.getX(), y = livingEntity.getY() + 1, z = livingEntity.getZ();
-        MagicManager.spawnParticles(level, ModParticleRegistry.FEATHER.get(),         x, y, z, 5, .3, .3, .3, 0.1, false);
-        MagicManager.spawnParticles(level, ParticleTypes.GUST,               x, y, z, 1,  .1, .1, .1, 0,   true);
+        MagicManager.spawnParticles(level, ModParticleRegistry.FEATHER.get(), x, y, z, 5, .3, .3, .3, 0.1, false);
+        MagicManager.spawnParticles(level, ParticleTypes.POOF,               x, y, z, 1, .1, .1, .1, 0,   true);
         level.playSound(null, x, y, z,
-                SoundEvents.WIND_CHARGE_BURST.value(),
+                SoundEvents.EVOKER_CAST_SPELL,
                 livingEntity.getSoundSource(), 4, 1.2f);
 
-        return false;
-    }
-
-
-    @Override
-    public void clientTick(LivingEntity entity, MobEffectInstance instance) {
-        var level = entity.level();
-        for (int i = 0; i < 3; i++) {
-            Vec3 random = Utils.getRandomVec3(.15);
-            level.addParticle(ParticleTypes.SMALL_GUST,
-                    entity.getRandomX(0.5), entity.getY() + Utils.getRandomScaled(0.5),
-                    entity.getRandomZ(0.5), random.x, random.y, random.z);
-        }
     }
 
     @Override
-    public boolean shouldApplyEffectTickThisTick(int pDuration, int pAmplifier) {
+    public boolean isDurationEffectTick(int pDuration, int pAmplifier) {
         return true;
     }
 
     @Override
-    public void onEffectAdded(LivingEntity pLivingEntity, int pAmplifier) {
-        super.onEffectAdded(pLivingEntity, pAmplifier);
-        ((LivingEntityAccessor) pLivingEntity).setLivingEntityFlagInvoker(4, true);
+    public void addAttributeModifiers(LivingEntity pLivingEntity, AttributeMap pAttributeMap, int pAmplifier) {
+        super.addAttributeModifiers(pLivingEntity, pAttributeMap, pAmplifier);
+        setFallFlying(pLivingEntity, true);
 
         if (pLivingEntity instanceof ServerPlayer serverPlayer) {
             serverPlayer.getPersistentData().remove("aeropic_hit_confirmed");
@@ -166,9 +171,9 @@ public class AeropicEffect extends MagicMobEffect implements ISyncedMobEffect {
     }
 
     @Override
-    public void onEffectRemoved(LivingEntity pLivingEntity, int pAmplifier) {
-        super.onEffectRemoved(pLivingEntity, pAmplifier);
-        ((LivingEntityAccessor) pLivingEntity).setLivingEntityFlagInvoker(4, false);
+    public void removeAttributeModifiers(LivingEntity pLivingEntity, AttributeMap pAttributeMap, int pAmplifier) {
+        super.removeAttributeModifiers(pLivingEntity, pAttributeMap, pAmplifier);
+        setFallFlying(pLivingEntity, false);
 
         if (pLivingEntity instanceof ServerPlayer serverPlayer) {
             MagicData magicData = MagicData.getPlayerMagicData(serverPlayer);

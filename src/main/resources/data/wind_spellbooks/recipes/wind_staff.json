@@ -7,14 +7,14 @@
   ],
   "key": {
     "W": {
-      "item": "minecraft:wind_charge"
+      "item": "irons_spellbooks:arcane_essence"
     },
     "B": {
-      "item": "minecraft:breeze_rod"
+      "item": "minecraft:blaze_rod"
     }
   },
   "result": {
-    "id": "wind_spellbooks:wind_staff",
+    "item": "wind_spellbooks:wind_staff",
     "count": 1
   }
 }

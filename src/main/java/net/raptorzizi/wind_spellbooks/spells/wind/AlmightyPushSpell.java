@@ -25,7 +25,7 @@ import java.util.Optional;
 public class AlmightyPushSpell extends AbstractSpell {
 
     private final ResourceLocation spellId =
-            ResourceLocation.fromNamespaceAndPath(WindSpellbooksMod.MOD_ID, "almighty_push");
+            new ResourceLocation(WindSpellbooksMod.MOD_ID, "almighty_push");
 
     private final DefaultConfig defaultConfig = new DefaultConfig()
             .setMinRarity(SpellRarity.UNCOMMON)
@@ -86,7 +86,7 @@ public class AlmightyPushSpell extends AbstractSpell {
 
         level.playSound(null,
                 entity.getX(), entity.getY(), entity.getZ(),
-                SoundEvents.WIND_CHARGE_BURST.value(),
+                SoundEvents.EVOKER_CAST_SPELL,
                 entity.getSoundSource(), 3.0f, 0.7f);
 
         super.onCast(level, spellLevel, entity, castSource, playerMagicData);

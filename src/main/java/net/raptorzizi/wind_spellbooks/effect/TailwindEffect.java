@@ -1,60 +1,25 @@
 package net.raptorzizi.wind_spellbooks.effect;
 
-import io.redspace.ironsspellbooks.effect.ISyncedMobEffect;
 import io.redspace.ironsspellbooks.effect.MagicMobEffect;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.raptorzizi.wind_spellbooks.WindSpellbooksMod;
 
-public class TailwindEffect extends MagicMobEffect implements ISyncedMobEffect {
+public class TailwindEffect extends MagicMobEffect {
 
     public static final float MAX_AIR_SPEED_PER_LEVEL = 0.15f;
-    public static final float JUMP_BASE               = 0.50f;
-    public static final float JUMP_PER_LEVEL          = 0.30f;
-
-    private static final ResourceLocation SPEED_ID =
-            ResourceLocation.fromNamespaceAndPath(WindSpellbooksMod.MOD_ID, "tailwind_speed");
-    private static final ResourceLocation JUMP_ID =
-            ResourceLocation.fromNamespaceAndPath(WindSpellbooksMod.MOD_ID, "tailwind_jump");
 
     public TailwindEffect(MobEffectCategory category, int color) {
         super(category, color);
     }
 
     @Override
-    public void onEffectStarted(LivingEntity entity, int amplifier) {
-
-        var jumpAttr = entity.getAttribute(Attributes.JUMP_STRENGTH);
-        if (jumpAttr != null) {
-            jumpAttr.removeModifier(JUMP_ID);
-            jumpAttr.addTransientModifier(new AttributeModifier(
-                    JUMP_ID,
-                    JUMP_BASE + JUMP_PER_LEVEL * amplifier,
-                    AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
-            ));
-        }
-    }
-
-    @Override
-    public void onEffectRemoved(LivingEntity entity, int amplifier) {
-        var speedAttr = entity.getAttribute(Attributes.MOVEMENT_SPEED);
-        if (speedAttr != null) speedAttr.removeModifier(SPEED_ID);
-
-        var jumpAttr = entity.getAttribute(Attributes.JUMP_STRENGTH);
-        if (jumpAttr != null) jumpAttr.removeModifier(JUMP_ID);
-    }
-
-    @Override
-    public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
+    public boolean isDurationEffectTick(int duration, int amplifier) {
         return true;
     }
 
     @Override
-    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
+    public void applyEffectTick(LivingEntity entity, int amplifier) {
         entity.fallDistance = 0;
 
         if (!entity.onGround() && entity.getDeltaMovement().y < 0
@@ -85,6 +50,5 @@ public class TailwindEffect extends MagicMobEffect implements ISyncedMobEffect {
                 );
             }
         }
-        return true;
     }
 }

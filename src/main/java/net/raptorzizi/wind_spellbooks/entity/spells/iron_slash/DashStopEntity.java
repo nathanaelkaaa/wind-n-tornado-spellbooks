@@ -52,7 +52,7 @@ public class DashStopEntity extends Entity {
     @Override
     public boolean shouldBeSaved() { return false; }
 
-    @Override protected void defineSynchedData(SynchedEntityData.Builder builder) {}
+    @Override protected void defineSynchedData() {}
     @Override protected void readAdditionalSaveData(CompoundTag tag) {}
     @Override protected void addAdditionalSaveData(CompoundTag tag) {}
 }

@@ -1,40 +1,37 @@
 package net.raptorzizi.wind_spellbooks.registries;
 
 import io.redspace.ironsspellbooks.api.attribute.MagicPercentAttribute;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 import net.raptorzizi.wind_spellbooks.WindSpellbooksMod;
 
-@EventBusSubscriber(modid = WindSpellbooksMod.MOD_ID)
+@Mod.EventBusSubscriber(modid = WindSpellbooksMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModAttributeRegistry {
 
     private static final DeferredRegister<Attribute> ATTRIBUTES =
-            DeferredRegister.create(Registries.ATTRIBUTE, WindSpellbooksMod.MOD_ID);
+            DeferredRegister.create(ForgeRegistries.ATTRIBUTES, WindSpellbooksMod.MOD_ID);
 
     public static void register(IEventBus eventBus) {
         ATTRIBUTES.register(eventBus);
     }
 
-    public static final DeferredHolder<Attribute, Attribute> WIND_MAGIC_RESIST =
-            newResistanceAttribute("wind");
-
-    public static final DeferredHolder<Attribute, Attribute> WIND_SPELL_POWER =
-            newPowerAttribute("wind");
+    public static final RegistryObject<Attribute> WIND_MAGIC_RESIST = newResistanceAttribute("wind");
+    public static final RegistryObject<Attribute> WIND_SPELL_POWER  = newPowerAttribute("wind");
 
     @SubscribeEvent
     public static void modifyEntityAttributes(EntityAttributeModificationEvent e) {
         e.getTypes().forEach(entity ->
-                ATTRIBUTES.getEntries().forEach(attribute -> e.add(entity, attribute))
+                ATTRIBUTES.getEntries().forEach(attribute -> e.add(entity, attribute.get()))
         );
     }
 
-    private static DeferredHolder<Attribute, Attribute> newResistanceAttribute(String id) {
+    private static RegistryObject<Attribute> newResistanceAttribute(String id) {
         return ATTRIBUTES.register(id + "_magic_resist", () ->
                 new MagicPercentAttribute(
                         "attribute.wind_spellbooks." + id + "_magic_resist",
@@ -43,7 +40,7 @@ public class ModAttributeRegistry {
         );
     }
 
-    private static DeferredHolder<Attribute, Attribute> newPowerAttribute(String id) {
+    private static RegistryObject<Attribute> newPowerAttribute(String id) {
         return ATTRIBUTES.register(id + "_spell_power", () ->
                 new MagicPercentAttribute(
                         "attribute.wind_spellbooks." + id + "_spell_power",

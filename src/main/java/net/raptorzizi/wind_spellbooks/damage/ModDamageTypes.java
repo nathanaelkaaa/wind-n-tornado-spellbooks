@@ -1,7 +1,7 @@
 package net.raptorzizi.wind_spellbooks.damage;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageScaling;
@@ -12,12 +12,12 @@ public class ModDamageTypes {
 
     private static ResourceKey<DamageType> register(String name) {
         return ResourceKey.create(Registries.DAMAGE_TYPE,
-                ResourceLocation.fromNamespaceAndPath(WindSpellbooksMod.MOD_ID, name));
+                new ResourceLocation(WindSpellbooksMod.MOD_ID, name));
     }
 
     public static final ResourceKey<DamageType> WIND_MAGIC = register("wind_magic");
 
-    public static void bootstrap(BootstrapContext<DamageType> context) {
+    public static void bootstrap(BootstapContext<DamageType> context) {
         context.register(WIND_MAGIC, new DamageType(
                 WIND_MAGIC.location().getPath(),
                 DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER,

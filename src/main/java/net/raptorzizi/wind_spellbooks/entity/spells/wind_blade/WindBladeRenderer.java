@@ -1,6 +1,7 @@
 package net.raptorzizi.wind_spellbooks.entity.spells.wind_blade;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -15,14 +16,14 @@ import org.joml.Matrix4f;
 public class WindBladeRenderer extends EntityRenderer<WindBladeProjectile> {
 
     private static final ResourceLocation[] TEXTURES = {
-            ResourceLocation.withDefaultNamespace("textures/particle/sweep_0.png"),
-            ResourceLocation.withDefaultNamespace("textures/particle/sweep_1.png"),
-            ResourceLocation.withDefaultNamespace("textures/particle/sweep_2.png"),
-            ResourceLocation.withDefaultNamespace("textures/particle/sweep_3.png"),
-            ResourceLocation.withDefaultNamespace("textures/particle/sweep_4.png"),
-            ResourceLocation.withDefaultNamespace("textures/particle/sweep_5.png"),
-            ResourceLocation.withDefaultNamespace("textures/particle/sweep_6.png"),
-            ResourceLocation.withDefaultNamespace("textures/particle/sweep_7.png")
+            new ResourceLocation("textures/particle/sweep_0.png"),
+            new ResourceLocation("textures/particle/sweep_1.png"),
+            new ResourceLocation("textures/particle/sweep_2.png"),
+            new ResourceLocation("textures/particle/sweep_3.png"),
+            new ResourceLocation("textures/particle/sweep_4.png"),
+            new ResourceLocation("textures/particle/sweep_5.png"),
+            new ResourceLocation("textures/particle/sweep_6.png"),
+            new ResourceLocation("textures/particle/sweep_7.png")
     };
 
     public WindBladeRenderer(EntityRendererProvider.Context context) {
@@ -59,17 +60,21 @@ public class WindBladeRenderer extends EntityRenderer<WindBladeProjectile> {
     private void drawSlash(PoseStack.Pose pose, WindBladeProjectile entity,
                            MultiBufferSource bufferSource, int light, float width, int offset) {
         Matrix4f poseMatrix = pose.pose();
-        var consumer = bufferSource.getBuffer(RenderType.entityCutoutNoCull(getTextureLocation(entity, offset)));
+        VertexConsumer consumer = bufferSource.getBuffer(RenderType.entityCutoutNoCull(getTextureLocation(entity, offset)));
         float h = width * 0.5f;
 
-        consumer.addVertex(poseMatrix, -h, -0.1f, -h).setColor(200, 240, 255, 220)
-                .setUv(0f, 1f).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(0f, 1f, 0f);
-        consumer.addVertex(poseMatrix,  h, -0.1f, -h).setColor(200, 240, 255, 220)
-                .setUv(1f, 1f).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(0f, 1f, 0f);
-        consumer.addVertex(poseMatrix,  h, -0.1f,  h).setColor(200, 240, 255, 220)
-                .setUv(1f, 0f).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(0f, 1f, 0f);
-        consumer.addVertex(poseMatrix, -h, -0.1f,  h).setColor(200, 240, 255, 220)
-                .setUv(0f, 0f).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(0f, 1f, 0f);
+        consumer.vertex(poseMatrix, -h, -0.1f, -h).color(200, 240, 255, 220)
+                .uv(0f, 1f).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light)
+                .normal(pose.normal(), 0f, 1f, 0f).endVertex();
+        consumer.vertex(poseMatrix,  h, -0.1f, -h).color(200, 240, 255, 220)
+                .uv(1f, 1f).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light)
+                .normal(pose.normal(), 0f, 1f, 0f).endVertex();
+        consumer.vertex(poseMatrix,  h, -0.1f,  h).color(200, 240, 255, 220)
+                .uv(1f, 0f).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light)
+                .normal(pose.normal(), 0f, 1f, 0f).endVertex();
+        consumer.vertex(poseMatrix, -h, -0.1f,  h).color(200, 240, 255, 220)
+                .uv(0f, 0f).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light)
+                .normal(pose.normal(), 0f, 1f, 0f).endVertex();
     }
 
     @Override

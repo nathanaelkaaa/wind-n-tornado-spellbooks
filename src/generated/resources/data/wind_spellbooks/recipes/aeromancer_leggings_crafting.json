@@ -3,7 +3,7 @@
   "category": "misc",
   "ingredients": [
     {
-      "tag": "irons_spellbooks:wizard_base_helmet"
+      "tag": "irons_spellbooks:wizard_base_leggings"
     },
     {
       "item": "wind_spellbooks:wind_rune"
@@ -14,6 +14,6 @@
   ],
   "result": {
     "count": 1,
-    "id": "wind_spellbooks:aeromancer_helmet"
+    "item": "wind_spellbooks:aeromancer_leggings"
   }
 }

@@ -2,16 +2,14 @@ package net.raptorzizi.wind_spellbooks.item.armor;
 
 import io.redspace.ironsspellbooks.entity.armor.GenericCustomArmorRenderer;
 import io.redspace.ironsspellbooks.item.armor.ImbuableChestplateArmorItem;
-import io.redspace.ironsspellbooks.registries.ArmorMaterialRegistry;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.raptorzizi.wind_spellbooks.entity.armor.AeromancerArmorModel;
-import net.raptorzizi.wind_spellbooks.registries.ModAttributeRegistry;
 import software.bernie.geckolib.renderer.GeoArmorRenderer;
 
 public class AeromancerArmorItem extends ImbuableChestplateArmorItem {
     public AeromancerArmorItem(Type type, Properties settings) {
-        super(ArmorMaterialRegistry.SCHOOL, type, settings, schoolAttributes(ModAttributeRegistry.WIND_SPELL_POWER));
+        super(WindArmorMaterial.AEROMANCER, type, settings);
     }
 
     @Override

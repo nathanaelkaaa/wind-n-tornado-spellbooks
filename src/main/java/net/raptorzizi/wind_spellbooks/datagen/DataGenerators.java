@@ -2,12 +2,12 @@ package net.raptorzizi.wind_spellbooks.datagen;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.minecraftforge.data.event.GatherDataEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.raptorzizi.wind_spellbooks.WindSpellbooksMod;
 
-@EventBusSubscriber(modid = WindSpellbooksMod.MOD_ID)
+@Mod.EventBusSubscriber(modid = WindSpellbooksMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class DataGenerators {
 
     @SubscribeEvent
@@ -18,6 +18,6 @@ public class DataGenerators {
         ModRegistryDataGenerator datapackProvider = new ModRegistryDataGenerator(output, event.getLookupProvider());
         generator.addProvider(event.includeServer(), datapackProvider);
         generator.addProvider(event.includeServer(), new ModDamageTypeTagGenerator(output, datapackProvider.getRegistryProvider(), event.getExistingFileHelper()));
-        generator.addProvider(event.includeServer(), new ModRecipeProvider(output, datapackProvider.getRegistryProvider()));
+        generator.addProvider(event.includeServer(), new ModRecipeProvider(output));
     }
 }

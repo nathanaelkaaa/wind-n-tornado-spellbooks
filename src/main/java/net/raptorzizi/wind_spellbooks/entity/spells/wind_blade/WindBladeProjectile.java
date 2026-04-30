@@ -77,8 +77,8 @@ public class WindBladeProjectile extends Projectile implements AntiMagicSuscepti
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        builder.define(DATA_RADIUS, 0.5f);
+    protected void defineSynchedData() {
+        this.entityData.define(DATA_RADIUS, 0.5f);
     }
 
     public void setRadius(float radius) {
@@ -132,7 +132,7 @@ public class WindBladeProjectile extends Projectile implements AntiMagicSuscepti
                     .filter(e -> canHitEntity(e) && !victims.contains(e))
                     .collect(Collectors.toSet())) {
                 damageEntity(entity);
-                MagicManager.spawnParticles(level(), ParticleTypes.GUST, entity.getX(), entity.getY(), entity.getZ(), 50, (double)0.0F, (double)0.0F, (double)0.0F, (double)0.5F, true);
+                MagicManager.spawnParticles(level(), ParticleTypes.POOF, entity.getX(), entity.getY(), entity.getZ(), 50, (double)0.0F, (double)0.0F, (double)0.0F, (double)0.5F, true);
             }
         }
 
@@ -178,7 +178,7 @@ public class WindBladeProjectile extends Projectile implements AntiMagicSuscepti
                 double dy = Math.random() * speed * 2f - speed;
                 double dz = Math.random() * speed * 2f - speed;
 
-                level().addParticle(ParticleTypes.SMALL_GUST, false, x + dx, y + dy, z + dz, dx, dy, dz);
+                level().addParticle(ParticleTypes.POOF, false, x + dx, y + dy, z + dz, dx, dy, dz);
             }
         }
     }

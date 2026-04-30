@@ -13,15 +13,7 @@
     }
   ],
   "result": {
-    "components": {
-      "irons_spellbooks:spell_container": {
-        "data": [],
-        "maxSpells": 1,
-        "mustEquip": true,
-        "spellWheel": true
-      }
-    },
     "count": 1,
-    "id": "wind_spellbooks:aeromancer_chestplate"
+    "item": "wind_spellbooks:aeromancer_chestplate"
   }
 }

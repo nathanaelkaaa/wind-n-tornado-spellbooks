@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class TornadoSpell extends AbstractSpell {
-    private final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(WindSpellbooksMod.MOD_ID, "tornado");
+    private final ResourceLocation spellId = new ResourceLocation(WindSpellbooksMod.MOD_ID, "tornado");
     private final DefaultConfig defaultConfig;
 
     @Override
@@ -59,12 +59,12 @@ public class TornadoSpell extends AbstractSpell {
 
     @Override
     public Optional<SoundEvent> getCastStartSound() {
-        return Optional.of(SoundEvents.BREEZE_IDLE_AIR);
+        return Optional.of(SoundEvents.EVOKER_CAST_SPELL);
     }
 
     @Override
     public Optional<SoundEvent> getCastFinishSound() {
-        return Optional.of(SoundEvents.BREEZE_SHOOT);
+        return Optional.of(SoundEvents.EVOKER_CAST_SPELL);
     }
 
     @Override

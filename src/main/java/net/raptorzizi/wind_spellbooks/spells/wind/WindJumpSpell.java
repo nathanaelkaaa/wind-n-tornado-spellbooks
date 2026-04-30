@@ -24,7 +24,7 @@ import java.util.List;
 //CHEKK
 
 public class WindJumpSpell extends AbstractSpell {
-    private final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(WindSpellbooksMod.MOD_ID, "wind_jump");
+    private final ResourceLocation spellId = new ResourceLocation(WindSpellbooksMod.MOD_ID, "wind_jump");
 
     @Override
     public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {

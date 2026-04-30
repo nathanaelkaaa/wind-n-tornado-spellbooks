@@ -14,17 +14,16 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.common.Tags;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.raptorzizi.wind_spellbooks.registries.ModEntityRegistry;
 import net.raptorzizi.wind_spellbooks.registries.ModParticleRegistry;
 import net.raptorzizi.wind_spellbooks.registries.ModSoundRegistry;
 import net.raptorzizi.wind_spellbooks.registries.ModSpellRegistry;
 import net.raptorzizi.wind_spellbooks.util.ElementCheck;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.ArrayList;
@@ -103,10 +102,10 @@ public class TornadoEntity extends Projectile implements GeoEntity{
     // Synced data
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        builder.define(DATA_RADIUS, 4f);
-        builder.define(DATA_DURATION, 20 * 10);
-        builder.define(DATA_ON_FIRE, false);
+    protected void defineSynchedData() {
+        this.entityData.define(DATA_RADIUS, 4f);
+        this.entityData.define(DATA_DURATION, 20 * 10);
+        this.entityData.define(DATA_ON_FIRE, false);
     }
 
     // Setters / Getters
@@ -226,7 +225,7 @@ public class TornadoEntity extends Projectile implements GeoEntity{
             float resistance = entity instanceof LivingEntity living2
                     ? Mth.clamp(1 - (float) living2.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE), 0.3f, 1f)
                     : 1f;
-            float bossResist = entity.getType().is(Tags.EntityTypes.BOSSES) ? 0.5f : 1f;
+            float bossResist = 1f;
 
             if (isAttractionPhase) {
                 applyAttraction(entity, scale, resistance, bossResist);
