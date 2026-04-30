@@ -68,6 +68,15 @@
       ]
     },
     {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "wind_spellbooks:wind_staff"
+        }
+      ]
+    },
+    {
       "rolls": {
         "min": 1,
         "max": 2

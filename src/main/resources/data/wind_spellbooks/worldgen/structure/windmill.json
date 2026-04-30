@@ -4,7 +4,6 @@
   "size": 1,
   "max_distance_from_center": 80,
   "biomes": "#wind_spellbooks:has_structure/windmill",
-  //"terrain_adaptation": "beard_box",
   "use_expansion_hack": false,
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
   "start_height": {
