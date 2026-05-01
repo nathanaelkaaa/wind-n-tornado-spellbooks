@@ -1,5 +1,8 @@
 package net.raptorzizi.wind_spellbooks.event;
 
+import io.redspace.ironsspellbooks.api.config.ModifyDefaultConfigValuesEvent;
+import io.redspace.ironsspellbooks.api.config.SpellConfigParameter;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -8,9 +11,22 @@ import net.minecraftforge.fml.common.Mod;
 import net.raptorzizi.wind_spellbooks.WindSpellbooksMod;
 import net.raptorzizi.wind_spellbooks.effect.TailwindEffect;
 import net.raptorzizi.wind_spellbooks.registries.ModMobEffectRegistry;
+import net.raptorzizi.wind_spellbooks.registries.ModSchoolRegistry;
 
 @Mod.EventBusSubscriber(modid = WindSpellbooksMod.MOD_ID)
 public class ModEvents {
+
+    private static final ResourceLocation GUST         = new ResourceLocation("irons_spellbooks", "gust");
+    private static final ResourceLocation INVISIBILITY = new ResourceLocation("irons_spellbooks", "invisibility");
+    private static final ResourceLocation THROW        = new ResourceLocation("irons_spellbooks", "throw");
+
+    @SubscribeEvent
+    public static void onModifySpellConfig(ModifyDefaultConfigValuesEvent event) {
+        ResourceLocation spellId = event.getSpell().getSpellResource();
+        if (spellId.equals(GUST) || spellId.equals(INVISIBILITY) || spellId.equals(THROW)) {
+            event.setDefaultValue(SpellConfigParameter.SCHOOL, ModSchoolRegistry.WIND.get());
+        }
+    }
 
     @SubscribeEvent
     public static void onLivingJump(LivingEvent.LivingJumpEvent event) {
