@@ -4,6 +4,8 @@ import com.google.common.collect.Sets;
 import io.redspace.ironsspellbooks.IronsSpellbooks;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
+import io.redspace.ironsspellbooks.api.spells.CastType;
+import io.redspace.ironsspellbooks.api.util.AnimationHolder;
 import io.redspace.ironsspellbooks.api.util.Utils;
 import io.redspace.ironsspellbooks.entity.mobs.abstract_spell_casting_mob.AbstractSpellCastingMob;
 import io.redspace.ironsspellbooks.entity.mobs.abstract_spell_casting_mob.NeutralWizard;
@@ -16,6 +18,7 @@ import io.redspace.ironsspellbooks.player.AdditionalWanderingTrades;
 import io.redspace.ironsspellbooks.registries.ItemRegistry;
 import io.redspace.ironsspellbooks.registries.SoundRegistry;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
@@ -49,9 +52,37 @@ import java.util.*;
 
 public class AeromancerEntity extends NeutralWizard implements IMerchantWizard {
 
+    public ResourceLocation currentAnimFile = AbstractSpellCastingMob.animationInstantCast;
+    private AbstractSpell lastInitiatedSpell = null;
+
     public AeromancerEntity(EntityType<? extends AbstractSpellCastingMob> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         xpReward = 25;
+    }
+
+    @Override
+    public void initiateCastSpell(AbstractSpell spell, int spellLevel) {
+        currentAnimFile = resolveAnimFile(spell.getCastStartAnimation());
+        lastInitiatedSpell = spell;
+        super.initiateCastSpell(spell, spellLevel);
+    }
+
+    @Override
+    public void castComplete() {
+        if (lastInitiatedSpell != null && lastInitiatedSpell.getCastType() == CastType.LONG) {
+            AnimationHolder finish = lastInitiatedSpell.getCastFinishAnimation();
+            if (!finish.isPass) {
+                currentAnimFile = resolveAnimFile(finish);
+            }
+        }
+        super.castComplete();
+    }
+
+    private static ResourceLocation resolveAnimFile(AnimationHolder holder) {
+        return holder.getForPlayer()
+                .filter(rl -> !rl.getNamespace().equals(IronsSpellbooks.MODID))
+                .map(rl -> ResourceLocation.fromNamespaceAndPath(rl.getNamespace(), "animations/" + rl.getPath() + ".json"))
+                .orElse(AbstractSpellCastingMob.animationInstantCast);
     }
 
     @Override
@@ -61,7 +92,7 @@ public class AeromancerEntity extends NeutralWizard implements IMerchantWizard {
         this.goalSelector.addGoal(2, new SpellBarrageGoal(this, ModSpellRegistry.ACROBATICS_SPELL.get(), 1, 1, 80, 200, 3));
         this.goalSelector.addGoal(3, new WizardAttackGoal(this, 1.25f, 25, 50)
                 .setSpells(
-                        List.of(ModSpellRegistry.WIND_BLADE_SPELL.get(), ModSpellRegistry.WIND_BLADE_SPELL.get(), ModSpellRegistry.WIND_BLADE_SPELL.get(), ModSpellRegistry.ACROBATICS_SPELL.get()),
+                        List.of(ModSpellRegistry.IRON_SLASH_SPELL.get()),
                         List.of(SpellRegistry.GUST_SPELL.get(),SpellRegistry.GUST_SPELL.get(),ModSpellRegistry.ALMIGHTY_PUSH_SPELL.get()),
                         List.of(ModSpellRegistry.WIND_JUMP_SPELL.get()),
                         List.of(ModSpellRegistry.TAILWIND_SPELL.get())
@@ -108,20 +139,6 @@ public class AeromancerEntity extends NeutralWizard implements IMerchantWizard {
     @Override
     public Optional<SoundEvent> getAngerSound() {
         return Optional.of(SoundRegistry.TRADER_NO.get());
-    }
-
-    @Override
-    public void initiateCastSpell(AbstractSpell spell, int spellLevel) {
-        if (!level().isClientSide) {
-            WindSpellbooksMod.LOGGER.info(
-                    "[Aeromancer] Cast: {} | Level: {} | Min: {} | Max: {}",
-                    spell.getSpellId(),
-                    spellLevel,
-                    spell.getMinLevel(),
-                    spell.getMaxLevel()
-            );
-        }
-        super.initiateCastSpell(spell, spellLevel);
     }
 
     /**

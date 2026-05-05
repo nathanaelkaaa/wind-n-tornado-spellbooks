@@ -1,0 +1,23 @@
+{
+  "profiles": [
+    {
+      "weight": 10,
+      "tier": 1,
+      "stats": {
+        "max_health": 20.0,
+        "armor": 0.0,
+        "attack_interval": 30,
+        "spells_quality": 0.2
+      },
+      "spells": {
+        "attack_spells": ["wind_spellbooks:wind_blade"],
+        "defense_spells": [],
+        "mobility_spells": [],
+        "utility_spells": []
+      },
+      "equipment": {
+        "mainhand": "irons_spellbooks:copper_spell_book"
+      }
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "profiles": [
+    {
+      "weight": 10,
+      "tier": 1,
+      "stats": {
+        "max_health": 30.0,
+        "armor": 0.0,
+        "attack_interval": 25,
+        "spells_quality": 0.4
+      },
+      "spells": {
+        "attack_spells": ["wind_spellbooks:wind_blade"],
+        "defense_spells": [],
+        "mobility_spells": [],
+        "utility_spells": []
+      },
+      "equipment": {
+        "mainhand": "irons_spellbooks:copper_spell_book"
+      }
+    },
+    {
+      "weight": 6,
+      "tier": 2,
+      "stats": {
+        "max_health": 45.0,
+        "armor": 4.0,
+        "attack_interval": 25,
+        "spells_quality": 0.6,
+        "barrage_projectile_count": 2
+      },
+      "spells": {
+        "barrage_spell": "wind_spellbooks:aeropic",
+        "attack_spells": [],
+        "defense_spells": ["wind_spellbooks:almighty_push"],
+        "mobility_spells": [],
+        "utility_spells": []
+      },
+      "equipment": {
+        "mainhand": "irons_spellbooks:iron_spell_book",
+        "head": "acolyte:black_wizard_helmet"
+      }
+    }
+  ]
+}
