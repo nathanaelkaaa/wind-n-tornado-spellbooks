@@ -14,8 +14,6 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.common.Tags;
 import net.raptorzizi.wind_spellbooks.registries.ModEntityRegistry;
 import net.raptorzizi.wind_spellbooks.registries.ModParticleRegistry;
@@ -43,10 +41,7 @@ public class TornadoEntity extends Projectile implements GeoEntity{
     private static final EntityDataAccessor<Boolean> DATA_ON_FIRE =
             SynchedEntityData.defineId(TornadoEntity.class, EntityDataSerializers.BOOLEAN);
 
-    @OnlyIn(Dist.CLIENT)
     public int fireTransitionTick = 0;
-
-    @OnlyIn(Dist.CLIENT)
     private boolean wasOnFire = false;
 
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
